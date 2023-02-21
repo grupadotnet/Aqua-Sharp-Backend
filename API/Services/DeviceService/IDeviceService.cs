@@ -7,5 +7,6 @@ namespace Aqua_Sharp_Backend.Services.DeviceService
         Task<Device> Update();
         Task<Device> Get();
         Task Delete();
+        Task GetDeviceConfig(int Id);
     }
 }

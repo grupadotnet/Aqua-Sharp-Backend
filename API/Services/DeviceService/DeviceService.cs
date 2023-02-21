@@ -17,6 +17,11 @@
             throw new NotImplementedException();
         }
 
+        public Task GetDeviceConfig(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Device> Update()
         {
             throw new NotImplementedException();

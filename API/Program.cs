@@ -22,7 +22,6 @@ builder.Services.AddDbContext<Context>(options => { options.UseNpgsql(builder.Co
 builder.Services.AddScoped<IAquariumService, AquariumService>();
 builder.Services.AddScoped<IMeasurmentService, MeasurmentService>();
 builder.Services.AddScoped<IConfigService, ConfigService>();
-
 #endregion
 
 var app = builder.Build();
@@ -32,6 +31,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
 }
 
 app.UseHttpsRedirection();
