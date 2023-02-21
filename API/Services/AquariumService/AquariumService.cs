@@ -1,10 +1,11 @@
 ﻿using Models.Models;
+using Models.ViewModels.Aquarium;
 
 namespace Aqua_Sharp_Backend.Services.AquariumService
 {
     public class AquariumService : IAquariumService
     {
-        public Task<Aquarium> Add()
+        public Task<Aquarium> Add(CreateAquariumViewModel createAquariumViewModel)
         {
             throw new NotImplementedException();
         }
