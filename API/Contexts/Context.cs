@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Models.Models;
+using Models.Entities;
 using System.Reflection;
 
 namespace Aqua_Sharp_Backend.Contexts

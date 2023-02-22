@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Models.Models
+namespace Models.Entities
 {
     public class Aquarium
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public int IdDevice { get; set; }
-        public Device Device{ get; set; }
+        public Device Device { get; set; }
         public uint Length { get; set; }
         public uint Width { get; set; }
         public uint Height { get; set; }

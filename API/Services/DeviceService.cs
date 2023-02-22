@@ -1,4 +1,7 @@
-﻿namespace Aqua_Sharp_Backend.Services.DeviceService
+﻿using Aqua_Sharp_Backend.Interfaces;
+using Models.Entities;
+
+namespace Aqua_Sharp_Backend.Services
 {
     public class DeviceService : IDeviceService
     {
@@ -13,6 +16,11 @@
         }
 
         public Task<Device> Get()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task GetDeviceConfig()
         {
             throw new NotImplementedException();
         }
