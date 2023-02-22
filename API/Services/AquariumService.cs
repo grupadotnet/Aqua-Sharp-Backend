@@ -1,7 +1,8 @@
-﻿using Models.Models;
+﻿using Aqua_Sharp_Backend.Interfaces;
+using Models.Entities;
 using Models.ViewModels.Aquarium;
 
-namespace Aqua_Sharp_Backend.Services.AquariumService
+namespace Aqua_Sharp_Backend.Services
 {
     public class AquariumService : IAquariumService
     {

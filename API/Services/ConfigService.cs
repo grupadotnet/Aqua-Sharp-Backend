@@ -1,4 +1,6 @@
-﻿namespace Aqua_Sharp_Backend.Services.ConfigService
+﻿using Aqua_Sharp_Backend.Interfaces;
+
+namespace Aqua_Sharp_Backend.Services
 {
     public class ConfigService : IConfigService
     {

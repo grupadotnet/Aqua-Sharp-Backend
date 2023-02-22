@@ -1,11 +1,9 @@
 global using Microsoft.EntityFrameworkCore;
-global using Models.Models;
+global using Models.Entities;
 global using AutoMapper;
-
-using Aqua_Sharp_Backend.Services.AquariumService;
 using Aqua_Sharp_Backend.Contexts;
-using Aqua_Sharp_Backend.Services.ConfigService;
-using Aqua_Sharp_Backend.Services.MeasurmentService;
+using Aqua_Sharp_Backend.Interfaces;
+using Aqua_Sharp_Backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

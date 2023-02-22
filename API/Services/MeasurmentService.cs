@@ -1,6 +1,6 @@
-﻿using Models.Models;
+﻿using Aqua_Sharp_Backend.Interfaces;
 
-namespace Aqua_Sharp_Backend.Services.MeasurmentService
+namespace Aqua_Sharp_Backend.Services
 {
     public class MeasurmentService : IMeasurmentService
     {

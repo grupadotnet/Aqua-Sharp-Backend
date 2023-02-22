@@ -1,4 +1,4 @@
-﻿using Aqua_Sharp_Backend.Services.DeviceService;
+﻿using Aqua_Sharp_Backend.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

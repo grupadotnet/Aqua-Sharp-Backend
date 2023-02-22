@@ -1,4 +1,6 @@
-﻿namespace Aqua_Sharp_Backend.Services.DeviceService
+﻿using Aqua_Sharp_Backend.Interfaces;
+
+namespace Aqua_Sharp_Backend.Services
 {
     public class DeviceService : IDeviceService
     {
