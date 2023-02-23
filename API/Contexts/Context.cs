@@ -15,8 +15,20 @@ namespace Aqua_Sharp_Backend.Contexts
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            modelBuilder.Entity<Config>().HasNoKey();
+
+
+            modelBuilder.Entity<Config>()
+                .HasData(new Config
+                {
+                    Id = 1,
+                    Password = "password",
+                    FirstRun = true,
+                    Question = "",
+                    Answer = "",
+                });
+
+
+
         }
 
         #region Entities
