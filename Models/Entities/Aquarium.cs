@@ -10,8 +10,6 @@ namespace Models.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int IdDevice { get; set; }
-        public Device Device { get; set; }
         public uint Length { get; set; }
         public uint Width { get; set; }
         public uint Height { get; set; }
@@ -19,5 +17,14 @@ namespace Models.Entities
         public float PH { get; set; }
         public TimeOnly Dawn { get; set; }
         public TimeOnly Sunset { get; set; }
+
+        public Device Device { get; set; }
+        public int DeviceId { get; set; }
+
+
+
+
+
+
     }
 }
