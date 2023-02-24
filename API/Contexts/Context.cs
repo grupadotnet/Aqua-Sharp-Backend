@@ -46,8 +46,8 @@ namespace Aqua_Sharp_Backend.Contexts
         {
             modelBuilder.Entity<Aquarium>()
                 .HasOne(a => a.Device)
-                .WithOne(d => d.Aquarium)
-                .HasForeignKey<Device>(d => d.AquariumId);
+                .WithOne(d => d.Aquarium);
+                
         }
         
         private static void CreateDevices(ModelBuilder modelBuilder)
