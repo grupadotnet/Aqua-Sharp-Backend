@@ -1,6 +1,7 @@
 global using Microsoft.EntityFrameworkCore;
 global using Models.Entities;
 global using AutoMapper;
+using System.Text.Json.Serialization;
 using Aqua_Sharp_Backend.Contexts;
 using Aqua_Sharp_Backend.Interfaces;
 using Aqua_Sharp_Backend.Middleware;
@@ -10,7 +11,8 @@ using Aqua_Sharp_Backend;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options => 
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<AquariumSeeder>();
 

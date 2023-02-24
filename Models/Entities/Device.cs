@@ -14,6 +14,5 @@ namespace Models.Entities
 
         public Aquarium Aquarium { get; set; }
         
-
     }
 }
