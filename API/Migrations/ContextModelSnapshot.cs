@@ -112,9 +112,6 @@ namespace Aqua_Sharp_Backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AquariumId")
-                        .HasColumnType("integer");
-
                     b.Property<bool>("ManualMode")
                         .HasColumnType("boolean");
 

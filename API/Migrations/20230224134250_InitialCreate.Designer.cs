@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Aqua_Sharp_Backend.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230223120107_seederconfig5")]
-    partial class seederconfig5
+    [Migration("20230224134250_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -71,26 +71,40 @@ namespace Aqua_Sharp_Backend.Migrations
 
             modelBuilder.Entity("Models.Entities.Config", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<string>("Answer")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("FirstRun")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true);
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
-                        .HasDefaultValue("password");
+                        .HasColumnType("text");
 
                     b.Property<string>("Question")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.HasKey("Id");
+
                     b.ToTable("Config");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Answer = "",
+                            FirstRun = true,
+                            Password = "password",
+                            Question = ""
+                        });
                 });
 
             modelBuilder.Entity("Models.Entities.Device", b =>
@@ -137,8 +151,6 @@ namespace Aqua_Sharp_Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AquariumId");
-
                     b.ToTable("Measurements");
                 });
 
@@ -151,17 +163,6 @@ namespace Aqua_Sharp_Backend.Migrations
                         .IsRequired();
 
                     b.Navigation("Device");
-                });
-
-            modelBuilder.Entity("Models.Entities.Measurement", b =>
-                {
-                    b.HasOne("Models.Entities.Aquarium", "Aquarium")
-                        .WithMany()
-                        .HasForeignKey("AquariumId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Aquarium");
                 });
 
             modelBuilder.Entity("Models.Entities.Device", b =>
