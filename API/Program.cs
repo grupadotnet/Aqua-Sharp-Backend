@@ -3,6 +3,7 @@ global using Models.Entities;
 global using AutoMapper;
 using Aqua_Sharp_Backend.Contexts;
 using Aqua_Sharp_Backend.Interfaces;
+using Aqua_Sharp_Backend.Middleware;
 using Aqua_Sharp_Backend.Services;
 using Aqua_Sharp_Backend;
 
@@ -20,6 +21,8 @@ builder.Services.AddDbContext<Context>(options => { options.UseNpgsql(builder.Co
 
 
 #region Dependency Injection
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
+
 builder.Services.AddScoped<IAquariumService, AquariumService>();
 builder.Services.AddScoped<IMeasurmentService, MeasurmentService>();
 builder.Services.AddScoped<IConfigService, ConfigService>();
@@ -38,10 +41,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     seeder.Seed();
-
 }
 
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
