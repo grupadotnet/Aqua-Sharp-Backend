@@ -1,4 +1,6 @@
-﻿using Aqua_Sharp_Backend.Contexts;
+﻿using System.Globalization;
+using Aqua_Sharp_Backend.Contexts;
+using Aqua_Sharp_Backend.Exceptions;
 using Aqua_Sharp_Backend.Interfaces;
 using Models.Entities;
 using Models.ViewModels.Aquarium;
@@ -36,16 +38,18 @@ namespace Aqua_Sharp_Backend.Services
             throw new NotImplementedException();
         }
 
-        public async Task<AquariumViewModel?> GetOne(int id)
+        public async Task<Aquarium> GetOne(int id)
         {
-            var aquarium = await _context.Aquarium
+            var aquarium = await _context
+                .Aquarium
                 .AsNoTracking()
+                .Include(a => a.Device)
                 .FirstOrDefaultAsync(a => a.Id == id);
+
             if (aquarium == null)
-                return null;
+                throw new NotFound404Exception($"404. Aquarium with id: {id} not found!");
             
-            var aquariumViewModel = _mapper.Map<AquariumViewModel>(aquarium);
-            return aquariumViewModel;
+            return aquarium;
         }
     }
 }
