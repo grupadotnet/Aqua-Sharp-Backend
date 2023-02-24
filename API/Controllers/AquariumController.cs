@@ -1,6 +1,7 @@
 ﻿using Aqua_Sharp_Backend.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Models.ViewModels.Aquarium;
 
 namespace Aqua_Sharp_Backend.Controllers
 {
@@ -9,27 +10,22 @@ namespace Aqua_Sharp_Backend.Controllers
     public class AquariumController : ControllerBase
     {
         private readonly IAquariumService _aquariumService;
-        public AquariumController(IAquariumService aquariumService)
+        private readonly IMapper _mapper;
+
+        public AquariumController(IAquariumService aquariumService, IMapper mapper)
         {
             _aquariumService = aquariumService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> Get([FromRoute] int id)
         {
-            try
-            {
-                var aquariumViewModel = await _aquariumService.GetOne(id);
-                if (aquariumViewModel == null)
-                    return StatusCode(StatusCodes.Status404NotFound);
+            var aquarium = await _aquariumService.GetOne(id);
 
-                return Ok(aquariumViewModel);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
-            }
+            var aquariumViewModel = _mapper.Map<AquariumViewModel>(aquarium);
+            return Ok(aquariumViewModel);
         }
     }
 }
