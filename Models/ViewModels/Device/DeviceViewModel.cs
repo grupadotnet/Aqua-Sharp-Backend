@@ -8,7 +8,7 @@ namespace Models.ViewModels.Device
         public uint MeasurementFrequency { get; set; }
         public bool ManualMode { get; set; } = false;
 
-        public AquariumViewModel AquariumViewModel { get; set; }
+        public AquariumViewModel Aquarium { get; set; }
         public int AquariumId { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace Models.ViewModels.Aquarium
         public TimeOnly Dawn { get; set; }
         public TimeOnly Sunset { get; set; }
 
-        public DeviceViewModel DeviceViewModel { get; set; }
+        public DeviceViewModel Device{ get; set; }
         public int DeviceId { get; set; }
     }
 }
