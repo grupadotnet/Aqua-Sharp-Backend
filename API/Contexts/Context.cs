@@ -23,6 +23,14 @@ namespace Aqua_Sharp_Backend.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            CreateConfig(modelBuilder);
+            CreateAquarium(modelBuilder);
+            CreateDevices(modelBuilder);
+            CreateMeasurement(modelBuilder);
+        }
+
+        private static void CreateConfig(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Config>()
                 .HasData(new Config
                 {
@@ -32,6 +40,27 @@ namespace Aqua_Sharp_Backend.Contexts
                     Question = "",
                     Answer = ""
                 });
+        }
+
+        private static void CreateAquarium(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Aquarium>()
+                .HasOne(a => a.Device)
+                .WithOne(d => d.Aquarium)
+                .HasForeignKey<Device>(d => d.AquariumId);
+        }
+        
+        private static void CreateDevices(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Device>()
+                .HasOne(a => a.Aquarium)
+                .WithOne(d => d.Device)
+                .HasForeignKey<Aquarium>(a => a.DeviceId);;
+        }
+        
+        private static void CreateMeasurement(ModelBuilder modelBuilder)
+        {
+            
         }
     }
 }

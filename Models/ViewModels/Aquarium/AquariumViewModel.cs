@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Models.ViewModels.Device;
 
 namespace Models.ViewModels.Aquarium
 {
@@ -11,7 +12,6 @@ namespace Models.ViewModels.Aquarium
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Device Device { get; set; }
         public uint Length { get; set; }
         public uint Width { get; set; }
         public uint Height { get; set; }
@@ -19,5 +19,8 @@ namespace Models.ViewModels.Aquarium
         public float PH { get; set; }
         public TimeOnly Dawn { get; set; }
         public TimeOnly Sunset { get; set; }
+
+        public DeviceViewModel DeviceViewModel { get; set; }
+        public int DeviceId { get; set; }
     }
 }
