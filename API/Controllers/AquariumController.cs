@@ -1,6 +1,7 @@
 ﻿using Aqua_Sharp_Backend.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Models.Entities;
 using Models.ViewModels.Aquarium;
 
 namespace Aqua_Sharp_Backend.Controllers
@@ -27,5 +28,21 @@ namespace Aqua_Sharp_Backend.Controllers
             var aquariumViewModel = _mapper.Map<AquariumViewModel>(aquarium);
             return Ok(aquariumViewModel);
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+
+          var aquariumState =  await _aquariumService.Delete(id);
+
+
+          if(aquariumState)  return NoContent();
+
+
+          return NotFound();
+
+        }
+
     }
 }

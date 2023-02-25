@@ -23,9 +23,23 @@ namespace Aqua_Sharp_Backend.Services
             throw new NotImplementedException();
         }
 
-        public Task Delete(int Id)
+        public async Task<bool> Delete(int Id)
         {
-            throw new NotImplementedException();
+            var aquarium = await _context
+                .Aquarium
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.Id == Id);
+
+            if (aquarium == null)
+            {
+                throw new NotFound404Exception($"404. Aquarium with id: {Id} not found!");
+                return false;
+            }
+                
+            _context.Remove(aquarium);
+            await _context.SaveChangesAsync();
+
+            return true;
         }
 
         public Task<Aquarium> Edit(int Id)
