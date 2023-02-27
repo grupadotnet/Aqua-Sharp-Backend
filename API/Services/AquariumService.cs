@@ -32,10 +32,18 @@ namespace Aqua_Sharp_Backend.Services
         {
             throw new NotImplementedException();
         }
-
-        public Task<List<Aquarium>> GetAll()
+        
+        public async Task<List<Aquarium>> GetAll()
         {
-            throw new NotImplementedException();
+            var aquariumList = await _context
+                .Aquarium
+                .AsNoTracking()
+                .ToListAsync();
+
+            if (aquariumList == null)
+                return new List<Aquarium>();
+
+            return aquariumList;
         }
 
         public async Task<Aquarium> GetOne(int id)
