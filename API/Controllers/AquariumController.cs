@@ -34,13 +34,9 @@ namespace Aqua_Sharp_Backend.Controllers
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
 
-          var aquariumState =  await _aquariumService.Delete(id);
+          await _aquariumService.Delete(id);
 
-
-          if(aquariumState)  return NoContent();
-
-
-          return NotFound();
+          return NoContent();
 
         }
 
