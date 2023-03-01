@@ -27,5 +27,17 @@ namespace Aqua_Sharp_Backend.Controllers
             var aquariumViewModel = _mapper.Map<AquariumViewModel>(aquarium);
             return Ok(aquariumViewModel);
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+
+            await _aquariumService.Delete(id);
+
+            return NoContent();
+
+        }
+
     }
 }
