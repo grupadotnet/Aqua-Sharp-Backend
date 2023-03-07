@@ -1,15 +1,19 @@
 global using Microsoft.EntityFrameworkCore;
 global using Models.Entities;
 global using AutoMapper;
+using System.Text.Json.Serialization;
 using Aqua_Sharp_Backend.Contexts;
 using Aqua_Sharp_Backend.Interfaces;
+using Aqua_Sharp_Backend.Middleware;
 using Aqua_Sharp_Backend.Services;
-using Aqua_Sharp_Backend;
+using Aqua_Sharp_Backend.Seeder;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+builder.Services.AddControllers().AddJsonOptions(options => 
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<AquariumSeeder>();
 
@@ -20,6 +24,8 @@ builder.Services.AddDbContext<Context>(options => { options.UseNpgsql(builder.Co
 
 
 #region Dependency Injection
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
+
 builder.Services.AddScoped<IAquariumService, AquariumService>();
 builder.Services.AddScoped<IMeasurmentService, MeasurmentService>();
 builder.Services.AddScoped<IConfigService, ConfigService>();
@@ -38,10 +44,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     seeder.Seed();
-
 }
 
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

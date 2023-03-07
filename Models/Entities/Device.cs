@@ -13,7 +13,5 @@ namespace Models.Entities
         public bool ManualMode { get; set; } = false;
 
         public Aquarium Aquarium { get; set; }
-        
-
     }
 }
