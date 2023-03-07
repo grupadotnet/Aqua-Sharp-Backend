@@ -20,11 +20,5 @@ namespace Models.Entities
 
         public Device Device { get; set; }
         public int DeviceId { get; set; }
-
-
-
-
-
-
     }
 }

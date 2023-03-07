@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Aqua_Sharp_Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,6 +16,8 @@ namespace Aqua_Sharp_Backend.Migrations
                 name: "Config",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Password = table.Column<string>(type: "text", nullable: false),
                     Question = table.Column<string>(type: "text", nullable: false),
                     Answer = table.Column<string>(type: "text", nullable: false),
@@ -23,6 +25,7 @@ namespace Aqua_Sharp_Backend.Migrations
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_Config", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -45,11 +48,11 @@ namespace Aqua_Sharp_Backend.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    IdAquarium = table.Column<int>(type: "integer", nullable: false),
                     Time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Temperature = table.Column<float>(type: "real", nullable: false),
                     TDS = table.Column<long>(type: "bigint", nullable: false),
-                    LightOn = table.Column<bool>(type: "boolean", nullable: false)
+                    LightOn = table.Column<bool>(type: "boolean", nullable: false),
+                    AquariumId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,15 +66,14 @@ namespace Aqua_Sharp_Backend.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    IdDevice = table.Column<int>(type: "integer", nullable: false),
-                    DeviceId = table.Column<int>(type: "integer", nullable: false),
                     Length = table.Column<long>(type: "bigint", nullable: false),
                     Width = table.Column<long>(type: "bigint", nullable: false),
                     Height = table.Column<long>(type: "bigint", nullable: false),
                     Temperature = table.Column<float>(type: "real", nullable: false),
                     PH = table.Column<float>(type: "real", nullable: false),
                     Dawn = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
-                    Sunset = table.Column<TimeOnly>(type: "time without time zone", nullable: false)
+                    Sunset = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
+                    DeviceId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -84,10 +86,16 @@ namespace Aqua_Sharp_Backend.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Config",
+                columns: new[] { "Id", "Answer", "FirstRun", "Password", "Question" },
+                values: new object[] { 1, "", true, "password", "" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Aquarium_DeviceId",
                 table: "Aquarium",
-                column: "DeviceId");
+                column: "DeviceId",
+                unique: true);
         }
 
         /// <inheritdoc />
