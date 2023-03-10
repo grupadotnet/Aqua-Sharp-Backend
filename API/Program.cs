@@ -7,6 +7,7 @@ using Aqua_Sharp_Backend.Interfaces;
 using Aqua_Sharp_Backend.Middleware;
 using Aqua_Sharp_Backend.Services;
 using Aqua_Sharp_Backend.Seeder;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<AquariumSeeder>();
+builder.Services.AddScoped<IPasswordHasher<Config>,PasswordHasher<Config>>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
