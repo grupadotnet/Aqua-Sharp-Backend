@@ -8,17 +8,25 @@ namespace Aqua_Sharp_Backend.Services
     {
         private readonly Context _context;
         private readonly IMapper _mapper;
+        private readonly IAquariumService _aquariumService;
         
-        public DeviceService(Context context, IMapper mapper)
+        public DeviceService(Context context, IMapper mapper, IAquariumService aquariumService)
         {
             _context = context;
             _mapper = mapper;
+            _aquariumService = aquariumService;
         }
         
         public async Task<Device> Add(CreateDeviceViewModel createDeviceViewModel)
         {
-            var deviceToAdd = _mapper.Map<Device>(createDeviceViewModel);
+            await _aquariumService.GetOne(createDeviceViewModel.AquariumId);
             
+            var deviceToAdd = new Device
+            {
+                MeasurementFrequency = createDeviceViewModel.MeasurementFrequency,
+                AquariumId = createDeviceViewModel.AquariumId
+            };
+
             var addedDevice = await _context.Devices.AddAsync(deviceToAdd);
 
             await _context.SaveChangesAsync();
