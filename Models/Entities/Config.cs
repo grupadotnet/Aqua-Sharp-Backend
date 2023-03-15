@@ -10,11 +10,10 @@ namespace Models.Entities
     public class Config
     {
        
-        public int Id { get; set; }
+        public int ConfigId { get; set; }
         public string Password { get; set; } 
         public string Question { get; set; }
         public string Answer { get; set; }
-        public bool FirstRun { get; set; } 
-
+        public bool FirstRun { get; set; }
     }
 }
