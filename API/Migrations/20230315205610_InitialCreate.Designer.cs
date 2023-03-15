@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Aqua_Sharp_Backend.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230224134250_InitialCreate")]
+    [Migration("20230315205610_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -27,11 +27,11 @@ namespace Aqua_Sharp_Backend.Migrations
 
             modelBuilder.Entity("Models.Entities.Aquarium", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AquariumId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("AquariumId"));
 
                     b.Property<TimeOnly>("Dawn")
                         .HasColumnType("time without time zone");
@@ -61,7 +61,9 @@ namespace Aqua_Sharp_Backend.Migrations
                     b.Property<long>("Width")
                         .HasColumnType("bigint");
 
-                    b.HasKey("Id");
+                    b.HasKey("AquariumId");
+
+                    b.HasIndex("AquariumId");
 
                     b.HasIndex("DeviceId")
                         .IsUnique();
@@ -71,11 +73,11 @@ namespace Aqua_Sharp_Backend.Migrations
 
             modelBuilder.Entity("Models.Entities.Config", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ConfigId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("ConfigId"));
 
                     b.Property<string>("Answer")
                         .IsRequired()
@@ -92,14 +94,16 @@ namespace Aqua_Sharp_Backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("ConfigId");
+
+                    b.HasIndex("ConfigId");
 
                     b.ToTable("Config");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            ConfigId = 1,
                             Answer = "",
                             FirstRun = true,
                             Password = "password",
@@ -109,11 +113,14 @@ namespace Aqua_Sharp_Backend.Migrations
 
             modelBuilder.Entity("Models.Entities.Device", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("DeviceId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("DeviceId"));
+
+                    b.Property<int>("AquariumId")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("ManualMode")
                         .HasColumnType("boolean");
@@ -121,18 +128,20 @@ namespace Aqua_Sharp_Backend.Migrations
                     b.Property<long>("MeasurementFrequency")
                         .HasColumnType("bigint");
 
-                    b.HasKey("Id");
+                    b.HasKey("DeviceId");
+
+                    b.HasIndex("DeviceId");
 
                     b.ToTable("Devices");
                 });
 
             modelBuilder.Entity("Models.Entities.Measurement", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MeasurementId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("MeasurementId"));
 
                     b.Property<int>("AquariumId")
                         .HasColumnType("integer");
@@ -149,7 +158,9 @@ namespace Aqua_Sharp_Backend.Migrations
                     b.Property<DateTime>("Time")
                         .HasColumnType("timestamp with time zone");
 
-                    b.HasKey("Id");
+                    b.HasKey("MeasurementId");
+
+                    b.HasIndex("MeasurementId");
 
                     b.ToTable("Measurements");
                 });

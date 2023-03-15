@@ -32,8 +32,9 @@ namespace Aqua_Sharp_Backend
                         Sunset = new TimeOnly(20, 30),
                         Device = new Device()
                         {
+                            AquariumId = 1,
                             MeasurementFrequency = 5,
-                            ManualMode = false,
+                            ManualMode = false
                         },
 
                     };
@@ -51,8 +52,9 @@ namespace Aqua_Sharp_Backend
                         Sunset = new TimeOnly(21, 30),
                         Device = new Device()
                         {
+                            AquariumId = 2,
                             MeasurementFrequency = 2,
-                            ManualMode = false,
+                            ManualMode = false
                         },
 
 
