@@ -44,7 +44,7 @@ namespace Aqua_Sharp_Backend.Services
                 .Aquarium
                 .AsNoTracking()
                 .Include(a => a.Device)
-                .FirstOrDefaultAsync(a => a.Id == id);
+                .FirstOrDefaultAsync(a => a.AquariumId == id);
 
             if (aquarium == null)
                 throw new NotFound404Exception($"404. Aquarium with id: {id} not found!");
