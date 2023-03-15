@@ -23,12 +23,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<Context>(options => { options.UseNpgsql(builder.Configuration.GetConnectionString("Default")); });
 
 
-#region Dependency Injection
+#region Inject services
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
-
 builder.Services.AddScoped<IAquariumService, AquariumService>();
 builder.Services.AddScoped<IMeasurmentService, MeasurmentService>();
 builder.Services.AddScoped<IConfigService, ConfigService>();
+builder.Services.AddHostedService<MqttClientService>();
 #endregion
 
 var app = builder.Build();
@@ -37,7 +37,6 @@ var app = builder.Build();
 
 var scope = app.Services.CreateScope();
 var seeder = scope.ServiceProvider.GetRequiredService<AquariumSeeder>();
-
 
 if (app.Environment.IsDevelopment())
 {
