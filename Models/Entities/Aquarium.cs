@@ -9,7 +9,6 @@ namespace Models.Entities
     public class Aquarium
     {
         public int AquariumId { get; set; }
-        public int DeviceId { get; set; }
         public string Name { get; set; }
         public uint Length { get; set; }
         public uint Width { get; set; }
