@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Aqua_Sharp_Backend.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230315205610_InitialCreate")]
+    [Migration("20230316183438_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -31,13 +31,10 @@ namespace Aqua_Sharp_Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("AquariumId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AquariumId"));
 
                     b.Property<TimeOnly>("Dawn")
                         .HasColumnType("time without time zone");
-
-                    b.Property<int>("DeviceId")
-                        .HasColumnType("integer");
 
                     b.Property<long>("Height")
                         .HasColumnType("bigint");
@@ -63,11 +60,6 @@ namespace Aqua_Sharp_Backend.Migrations
 
                     b.HasKey("AquariumId");
 
-                    b.HasIndex("AquariumId");
-
-                    b.HasIndex("DeviceId")
-                        .IsUnique();
-
                     b.ToTable("Aquarium");
                 });
 
@@ -77,7 +69,7 @@ namespace Aqua_Sharp_Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("ConfigId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ConfigId"));
 
                     b.Property<string>("Answer")
                         .IsRequired()
@@ -95,8 +87,6 @@ namespace Aqua_Sharp_Backend.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("ConfigId");
-
-                    b.HasIndex("ConfigId");
 
                     b.ToTable("Config");
 
@@ -117,7 +107,7 @@ namespace Aqua_Sharp_Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("DeviceId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DeviceId"));
 
                     b.Property<int>("AquariumId")
                         .HasColumnType("integer");
@@ -130,7 +120,8 @@ namespace Aqua_Sharp_Backend.Migrations
 
                     b.HasKey("DeviceId");
 
-                    b.HasIndex("DeviceId");
+                    b.HasIndex("AquariumId")
+                        .IsUnique();
 
                     b.ToTable("Devices");
                 });
@@ -141,7 +132,7 @@ namespace Aqua_Sharp_Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("MeasurementId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("MeasurementId"));
 
                     b.Property<int>("AquariumId")
                         .HasColumnType("integer");
@@ -160,25 +151,23 @@ namespace Aqua_Sharp_Backend.Migrations
 
                     b.HasKey("MeasurementId");
 
-                    b.HasIndex("MeasurementId");
-
                     b.ToTable("Measurements");
-                });
-
-            modelBuilder.Entity("Models.Entities.Aquarium", b =>
-                {
-                    b.HasOne("Models.Entities.Device", "Device")
-                        .WithOne("Aquarium")
-                        .HasForeignKey("Models.Entities.Aquarium", "DeviceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Device");
                 });
 
             modelBuilder.Entity("Models.Entities.Device", b =>
                 {
-                    b.Navigation("Aquarium")
+                    b.HasOne("Models.Entities.Aquarium", "Aquarium")
+                        .WithOne("Device")
+                        .HasForeignKey("Models.Entities.Device", "AquariumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Aquarium");
+                });
+
+            modelBuilder.Entity("Models.Entities.Aquarium", b =>
+                {
+                    b.Navigation("Device")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618
