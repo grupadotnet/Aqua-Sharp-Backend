@@ -7,8 +7,9 @@ namespace Aqua_Sharp_Backend.Interfaces
     {
         Task<Aquarium> Add(CreateAquariumViewModel createAquariumViewModel);
         Task Delete(int id);
-        Task<Aquarium> GetOne(int id);
+        Task<Aquarium> Get(int id);
         Task<List<Aquarium>> GetAll();
         Task<Aquarium> Edit(int id);
+        Task<bool> CheckIfAquariumExistsAsync(int id);
     }
 }
