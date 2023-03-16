@@ -1,4 +1,5 @@
 ﻿using Aqua_Sharp_Backend.Contexts;
+using Aqua_Sharp_Backend.Exceptions;
 using Aqua_Sharp_Backend.Interfaces;
 using Models.ViewModels.Device;
 
@@ -19,16 +20,16 @@ namespace Aqua_Sharp_Backend.Services
         
         public async Task<Device> Add(CreateDeviceViewModel createDeviceViewModel)
         {
-            await _aquariumService.GetOne(createDeviceViewModel.AquariumId);
+            var aquariumId = createDeviceViewModel.AquariumId;
             
-            var deviceToAdd = new Device
-            {
-                MeasurementFrequency = createDeviceViewModel.MeasurementFrequency,
-                AquariumId = createDeviceViewModel.AquariumId
-            };
+            var aquarium = await _aquariumService.Get(aquariumId);
+            
+            if (aquarium.Device != null) throw new BadRequest400Exception(
+                $"400. Aquarium with id: {aquariumId} already has a device!");
 
+            var deviceToAdd = _mapper.Map<Device>(createDeviceViewModel);
+            
             var addedDevice = await _context.Devices.AddAsync(deviceToAdd);
-
             await _context.SaveChangesAsync();
 
             return addedDevice.Entity;
@@ -39,12 +40,20 @@ namespace Aqua_Sharp_Backend.Services
             throw new NotImplementedException();
         }
 
-        public Task<Device> Get()
+        public async Task<Device> Get(int id)
         {
-            throw new NotImplementedException();
+            var device = await _context.Devices
+                .AsNoTracking()
+                .Include(d => d.Aquarium)
+                .FirstOrDefaultAsync(d => d.DeviceId == id);
+            
+            if (device == null) throw new NotFound404Exception(
+                    $"404. Aquarium with id: {id} not found!");
+            
+            return device;
         }
 
-        public Task GetDeviceConfig(int Id)
+        public Task GetDeviceConfig(int id)
         {
             throw new NotImplementedException();
         }
@@ -52,6 +61,13 @@ namespace Aqua_Sharp_Backend.Services
         public Task<Device> Update()
         {
             throw new NotImplementedException();
+        }
+        
+        public async Task<bool> CheckIfDeviceExistsAsync(int id)
+        {
+            return await _context.Devices
+                .AsNoTracking()
+                .FirstOrDefaultAsync(d => d.DeviceId == id) != null;
         }
     }
 }
