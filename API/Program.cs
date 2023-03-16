@@ -6,11 +6,12 @@ using Aqua_Sharp_Backend.Contexts;
 using Aqua_Sharp_Backend.Interfaces;
 using Aqua_Sharp_Backend.Middleware;
 using Aqua_Sharp_Backend.Services;
-using Aqua_Sharp_Backend;
+using Aqua_Sharp_Backend.Seeder;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddControllers().AddJsonOptions(options => 
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddAutoMapper(typeof(Program));
