@@ -22,7 +22,7 @@ namespace Aqua_Sharp_Backend.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Get([FromRoute] int id)
         {
-            var aquarium = await _aquariumService.GetOne(id);
+            var aquarium = await _aquariumService.Get(id);
             
             var aquariumViewModel = _mapper.Map<AquariumViewModel>(aquarium);
             return Ok(aquariumViewModel);
