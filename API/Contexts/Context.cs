@@ -31,13 +31,6 @@ namespace Aqua_Sharp_Backend.Contexts
 
         private static void CreateConfig(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Config>(ef =>
-            {
-                ef.Property(c => c.ConfigId).UseSerialColumn().IsRequired();
-                ef.HasKey(c => c.ConfigId);
-                ef.HasIndex(c => c.ConfigId);
-            });
-            
             modelBuilder.Entity<Config>()
                 .HasData(new Config
                 {
@@ -51,42 +44,22 @@ namespace Aqua_Sharp_Backend.Contexts
 
         private static void CreateAquarium(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Aquarium>(ef =>
-            {
-                ef.Property(a => a.AquariumId).UseSerialColumn().IsRequired();
-                ef.HasKey(a => a.AquariumId);
-                ef.HasIndex(a => a.AquariumId);
-            });
-            
             modelBuilder.Entity<Aquarium>()
-                .HasOne(a => a.Device)
+                .HasOne<Device>(a => a.Device)
                 .WithOne(d => d.Aquarium)
                 .HasForeignKey<Device>(d => d.AquariumId);
         }
         
         private static void CreateDevices(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Device>(ef =>
-            {
-                ef.Property(d => d.DeviceId).UseSerialColumn().IsRequired();
-                ef.HasKey(d => d.DeviceId);
-                ef.HasIndex(d => d.DeviceId);
-            });
-            
             modelBuilder.Entity<Device>()
-                .HasOne(a => a.Aquarium)
-                .WithOne(d => d.Device)
-                .HasForeignKey<Aquarium>(a => a.DeviceId);
+                .HasOne<Aquarium>(d => d.Aquarium)
+                .WithOne(a => a.Device)
+                .HasForeignKey<Device>(d => d.AquariumId);
         }
         
         private static void CreateMeasurement(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Measurement>(ef =>
-            {
-                ef.Property(m => m.MeasurementId).UseSerialColumn().IsRequired();
-                ef.HasKey(m => m.MeasurementId);
-                ef.HasIndex(m => m.MeasurementId);
-            });
         }
     }
 }
