@@ -7,12 +7,10 @@ namespace Aqua_Sharp_Backend.Profiles
         public AquariumProfile()
         {
             CreateMap<Aquarium, CreateAquariumViewModel>()
-                .ReverseMap()
-                .ForAllMembers(x => x.Ignore());
-            
+                .ReverseMap();
+
             CreateMap<Aquarium, AquariumViewModel>()
-                .ReverseMap()
-                .ForAllMembers(x => x.Ignore());
+                .ReverseMap();
         }
     }
 }
