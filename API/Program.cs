@@ -27,7 +27,7 @@ builder.Services.AddDbContext<Context>(options => { options.UseNpgsql(builder.Co
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
 builder.Services.AddScoped<IAquariumService, AquariumService>();
-builder.Services.AddScoped<IMeasurmentService, MeasurmentService>();
+builder.Services.AddScoped<IMeasurementService, MeasurementService>();
 builder.Services.AddScoped<IConfigService, ConfigService>();
 #endregion
 
