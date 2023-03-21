@@ -15,12 +15,5 @@ namespace Aqua_Sharp_Backend.Controllers
         {
             _measurementService = measurementService; 
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateMeasurementViewModel viewModel)
-        {
-            var res = await _measurementService.Create(viewModel);
-            return Ok(res);
-        }
     }
 }
