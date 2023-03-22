@@ -37,7 +37,7 @@ public sealed class AquariumControllerTest : ControllerTestBase
             }
         };
 
-        _aquariumServiceMock.Setup(a => a.GetOne(1)).ReturnsAsync(aquarium);
+        _aquariumServiceMock.Setup(a => a.Get(1)).ReturnsAsync(aquarium);
         _aquariumController = new AquariumController(_aquariumServiceMock.Object, Mapper);
 
         // Act

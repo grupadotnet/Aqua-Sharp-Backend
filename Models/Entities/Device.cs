@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Models.Entities
+﻿namespace Models.Entities
 {
     public class Device
     {
-        public int Id { get; set; }
+        public int DeviceId { get; set; }
         public uint MeasurementFrequency { get; set; }
         public bool ManualMode { get; set; } = false;
-
+        
+        public int AquariumId { get; set; }
         public Aquarium Aquarium { get; set; }
     }
 }
