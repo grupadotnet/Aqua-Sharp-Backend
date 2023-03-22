@@ -32,7 +32,7 @@ builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddScoped<IAquariumService, AquariumService>();
 builder.Services.AddScoped<IConfigService, ConfigService>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
-builder.Services.AddScoped<IMeasurmentService, MeasurmentService>();
+builder.Services.AddScoped<IMeasurementService, MeasurementService>();
 #endregion
 
 var app = builder.Build();

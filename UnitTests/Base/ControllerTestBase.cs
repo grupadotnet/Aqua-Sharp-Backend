@@ -28,7 +28,7 @@ namespace UnitTests
                 cfg.AddProfile(new ConfigProfile()); 
                 cfg.AddProfile(new AquariumProfile()); 
                 cfg.AddProfile(new DeviceProfile()); 
-                cfg.AddProfile(new MeasurmentProfile()); 
+                cfg.AddProfile(new MeasurementProfile()); 
             });
 
             Mapper = new Mapper(mapperConfig);
