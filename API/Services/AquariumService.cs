@@ -28,7 +28,7 @@ namespace Aqua_Sharp_Backend.Services
             var aquarium = await _context
                 .Aquarium
                 .AsNoTracking()
-                .FirstOrDefaultAsync(a => a.Id == Id);
+                .FirstOrDefaultAsync(a => a.AquariumId == Id);
 
 
 
@@ -55,18 +55,25 @@ namespace Aqua_Sharp_Backend.Services
             return aquariumList;
         }
 
-        public async Task<Aquarium> GetOne(int id)
+        public async Task<Aquarium> Get(int id)
         {
             var aquarium = await _context
                 .Aquarium
                 .AsNoTracking()
                 .Include(a => a.Device)
-                .FirstOrDefaultAsync(a => a.Id == id);
+                .FirstOrDefaultAsync(a => a.AquariumId == id);
 
-            if (aquarium == null)
-                throw new NotFound404Exception($"404. Aquarium with id: {id} not found!");
+            if (aquarium == null) throw new NotFound404Exception(
+                $"404. Aquarium with id: {id} not found!");
             
             return aquarium;
+        }
+        
+        public async Task<bool> CheckIfAquariumExistsAsync(int id)
+        {
+            return await _context.Aquarium
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.AquariumId == id) != null;
         }
     }
 }
