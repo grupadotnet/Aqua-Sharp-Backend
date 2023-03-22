@@ -19,7 +19,7 @@ namespace Aqua_Sharp_Backend.Services
         }
         public async Task<Measurement> Create(CreateMeasurementViewModel viewModel)
         {
-            await _aquariumService.GetOne(viewModel.AquariumId);
+            await _aquariumService.Get(viewModel.AquariumId);
             
             var measurement = _mapper.Map<Measurement>(viewModel);
             _context.Measurements.Add(measurement);
