@@ -8,7 +8,7 @@ namespace Models.Entities
 {
     public class Aquarium
     {
-        public int Id { get; set; }
+        public int AquariumId { get; set; }
         public string Name { get; set; }
         public uint Length { get; set; }
         public uint Width { get; set; }
@@ -19,6 +19,5 @@ namespace Models.Entities
         public TimeOnly Sunset { get; set; }
 
         public Device Device { get; set; }
-        public int DeviceId { get; set; }
     }
 }
