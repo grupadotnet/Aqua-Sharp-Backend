@@ -20,15 +20,20 @@ builder.Services.AddScoped<AquariumSeeder>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<Context>(options => { options.UseNpgsql(builder.Configuration.GetConnectionString("Default")); });
+builder.Services.AddDbContext<Context>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
+});
 
 
 #region Inject services
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddScoped<IAquariumService, AquariumService>();
-builder.Services.AddScoped<IMeasurmentService, MeasurmentService>();
+builder.Services.AddScoped<IMeasurementService, MeasurementService>();
 builder.Services.AddScoped<IConfigService, ConfigService>();
 builder.Services.AddHostedService<MqttClientService>();
+builder.Services.AddScoped<IDeviceService, DeviceService>();
+
 #endregion
 
 var app = builder.Build();
