@@ -22,11 +22,10 @@ namespace Aqua_Sharp_Backend.Services
             await _aquariumService.Get(viewModel.AquariumId);
             
             var measurement = _mapper.Map<Measurement>(viewModel);
-            _context.Measurements.Add(measurement);
-
+            var res = await _context.Measurements.AddAsync(measurement);
             await _context.SaveChangesAsync();
 
-            return measurement;
+            return res.Entity;
         }
 
         public Task Delete(int id)
