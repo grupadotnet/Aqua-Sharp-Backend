@@ -1,6 +1,3 @@
-global using Microsoft.EntityFrameworkCore;
-global using Models.Entities;
-global using AutoMapper;
 using System.Text.Json.Serialization;
 using Aqua_Sharp_Backend.Contexts;
 using Aqua_Sharp_Backend.Interfaces;

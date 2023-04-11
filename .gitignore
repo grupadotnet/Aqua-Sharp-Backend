@@ -669,6 +669,9 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Mosquitto
+*.db
+
 ### VisualStudio ###
 
 # User-specific files
