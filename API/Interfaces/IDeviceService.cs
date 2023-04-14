@@ -8,7 +8,7 @@ namespace Aqua_Sharp_Backend.Interfaces
         Task<Device> Update();
         Task<Device> Get(int id);
         Task Delete();
-        Task GetDeviceConfig(int Id);
+        Task<DeviceConfigViewModel> GetDeviceConfig(int id);
         Task<bool> CheckIfDeviceExistsAsync(int id);
     }
 }
