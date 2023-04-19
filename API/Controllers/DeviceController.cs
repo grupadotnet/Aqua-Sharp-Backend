@@ -17,12 +17,20 @@ namespace Aqua_Sharp_Backend.Controllers
             _deviceService = deviceService; 
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             var device = await _deviceService.Get(id);
 
             return Ok(device);
+        }
+        
+        [HttpGet("{id}/config")]
+        public async Task<IActionResult> GetConfig(int id)
+        {
+            var config = await _deviceService.GetDeviceConfig(id);
+
+            return Ok(config);
         }
     }
 }

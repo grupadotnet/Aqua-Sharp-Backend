@@ -47,9 +47,12 @@ namespace Aqua_Sharp_Backend.Services
             return device;
         }
 
-        public Task GetDeviceConfig(int id)
+        public async Task <DeviceConfigViewModel> GetDeviceConfig (int id)
         {
-            throw new NotImplementedException();
+            var device = await this.Get(id);
+
+            return _mapper.Map<DeviceConfigViewModel>(device);
+
         }
 
         public Task<Device> Update()
