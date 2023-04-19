@@ -28,9 +28,16 @@ namespace Aqua_Sharp_Backend.Services
             return res.Entity;
         }
 
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            var measurement = await _context.Measurements.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
+
+            if (measurement is null)
+                return;
+
+            _context.Measurements.Remove(measurement);
+
+            await _context.SaveChangesAsync();
         }
 
         public Task<List<Measurement>> Get(int pageNumber)
