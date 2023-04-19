@@ -15,5 +15,14 @@ namespace Aqua_Sharp_Backend.Controllers
         {
             _measurementService = measurementService; 
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            await _measurementService.Delete(id);
+
+            return NoContent();
+        }
     }
 }
