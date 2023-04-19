@@ -46,6 +46,12 @@ namespace Aqua_Sharp_Backend.Controllers
             return NoContent();
 
         }
+        [HttpPost]
+        public async Task<IActionResult> Add([FromBody] CreateAquariumViewModel createAquariumViewModel)
+        {
+            var res = await _aquariumService.Add(createAquariumViewModel);
 
+            return Ok(res);
+        }
     }
 }
