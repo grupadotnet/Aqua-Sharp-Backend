@@ -2,8 +2,8 @@
 using Aqua_Sharp_Backend.Contexts;
 using Aqua_Sharp_Backend.Exceptions;
 using Aqua_Sharp_Backend.Interfaces;
-using Models.Entities;
 using Models.ViewModels.Aquarium;
+using Models.ViewModels.Device;
 
 namespace Aqua_Sharp_Backend.Services
 {
@@ -11,16 +11,30 @@ namespace Aqua_Sharp_Backend.Services
     {
         private readonly Context _context;
         private readonly IMapper _mapper;
+        private readonly IDeviceService _deviceService;
 
-        public AquariumService(Context context, IMapper mapper)
+        public AquariumService(Context context, IMapper mapper, IDeviceService deviceService)
         {
             _context = context;
             _mapper = mapper;
+            _deviceService = deviceService;
         }
         
-        public Task<Aquarium> Add(CreateAquariumViewModel createAquariumViewModel)
+        public async Task<Aquarium> Add(CreateAquariumViewModel createAquariumViewModel)
         {
-            throw new NotImplementedException();
+            var aquarium = _mapper.Map<Aquarium>(createAquariumViewModel);
+            await _context.Aquarium.AddAsync(aquarium);
+
+            var createDeviceViewModel = new CreateDeviceViewModel()
+            {
+                Aquarium = aquarium,
+                MeasurementFrequency = createAquariumViewModel.MeasurementFrequency
+            };
+           await _deviceService.Add(createDeviceViewModel);
+
+           await _context.SaveChangesAsync();
+           
+           return aquarium;
         }
 
         public async Task Delete(int id)
