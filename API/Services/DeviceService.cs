@@ -9,23 +9,17 @@ namespace Aqua_Sharp_Backend.Services
     {
         private readonly Context _context;
         private readonly IMapper _mapper;
-        private readonly IAquariumService _aquariumService;
         
-        public DeviceService(Context context, IMapper mapper, IAquariumService aquariumService)
+        public DeviceService(Context context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
-            _aquariumService = aquariumService;
         }
         
         public async Task<Device> Add(CreateDeviceViewModel createDeviceViewModel)
         {
-            var aquariumId = createDeviceViewModel.AquariumId;
-            
-            var aquarium = await _aquariumService.Get(aquariumId);
-            
-            if (aquarium.Device != null) throw new BadRequest400Exception(
-                $"400. Aquarium with id: {aquariumId} already has a device!");
+            if (createDeviceViewModel.Aquarium.Device != null) throw new BadRequest400Exception(
+                $"400. Aquarium with id: {createDeviceViewModel.Aquarium.AquariumId} already has a device!");
 
             var deviceToAdd = _mapper.Map<Device>(createDeviceViewModel);
             

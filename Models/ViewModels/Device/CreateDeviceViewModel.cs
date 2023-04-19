@@ -5,5 +5,5 @@ namespace Models.ViewModels.Device;
 public class CreateDeviceViewModel
 {
     public uint MeasurementFrequency { get; set; }
-    public int AquariumId { get; set; }
+    public Entities.Aquarium Aquarium { get; set; }
 }
