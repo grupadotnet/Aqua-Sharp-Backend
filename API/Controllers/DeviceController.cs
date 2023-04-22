@@ -40,5 +40,12 @@ namespace Aqua_Sharp_Backend.Controllers
 
             return Ok(config);
         }
+
+        [HttpPatch("{id}/mode")]
+        public async Task<IActionResult> SwitchMode(int id, [FromQuery] bool manual)
+        {
+            await _deviceService.SwitchMode(id, manual);
+            return Ok();
+        }
     }
 }
