@@ -1,6 +1,3 @@
-global using Microsoft.EntityFrameworkCore;
-global using Models.Entities;
-global using AutoMapper;
 using System.Text.Json.Serialization;
 using Aqua_Sharp_Backend.Contexts;
 using Aqua_Sharp_Backend.Interfaces;
@@ -26,13 +23,14 @@ builder.Services.AddDbContext<Context>(options =>
 });
 
 
-#region Dependency Injection
+#region Inject services
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
-
 builder.Services.AddScoped<IAquariumService, AquariumService>();
+builder.Services.AddScoped<IMeasurementService, MeasurementService>();
 builder.Services.AddScoped<IConfigService, ConfigService>();
+builder.Services.AddHostedService<MqttClientService>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
-builder.Services.AddScoped<IMeasurmentService, MeasurmentService>();
+
 #endregion
 
 var app = builder.Build();
@@ -41,7 +39,6 @@ var app = builder.Build();
 
 var scope = app.Services.CreateScope();
 var seeder = scope.ServiceProvider.GetRequiredService<AquariumSeeder>();
-
 
 if (app.Environment.IsDevelopment())
 {

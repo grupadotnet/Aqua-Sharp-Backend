@@ -19,7 +19,7 @@ namespace Aqua_Sharp_Backend.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             var device = await _deviceService.Get(id);
@@ -27,13 +27,13 @@ namespace Aqua_Sharp_Backend.Controllers
             var deviceViewModel = _mapper.Map<DeviceViewModel>(device);
             return Ok(deviceViewModel);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Add([FromBody] CreateDeviceViewModel createDeviceViewModel)
+        
+        [HttpGet("{id}/config")]
+        public async Task<IActionResult> GetConfig(int id)
         {
-            var device = await _deviceService.Add(createDeviceViewModel);
+            var config = await _deviceService.GetDeviceConfig(id);
 
-            return Ok(device);
+            return Ok(config);
         }
     }
 }
