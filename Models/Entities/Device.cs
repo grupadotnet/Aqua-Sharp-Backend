@@ -12,5 +12,8 @@ namespace Models.Entities
         public uint MeasurementFrequency { get; set; }
         public bool ManualMode { get; set; } = false;
 
+        public Aquarium Aquarium { get; set; }
+        
+
     }
 }

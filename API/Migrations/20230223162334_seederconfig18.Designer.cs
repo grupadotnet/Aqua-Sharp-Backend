@@ -3,6 +3,7 @@ using System;
 using Aqua_Sharp_Backend.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Aqua_Sharp_Backend.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20230223162334_seederconfig18")]
+    partial class seederconfig18
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,17 +94,7 @@ namespace Aqua_Sharp_Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Config");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Answer = "",
-                            FirstRun = true,
-                            Password = "password",
-                            Question = ""
-                        });
+                    b.ToTable("Config", (string)null);
                 });
 
             modelBuilder.Entity("Models.Entities.Device", b =>
