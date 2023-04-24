@@ -8,6 +8,7 @@ namespace Aqua_Sharp_Backend.Profiles
         {
             CreateMap<Device, CreateDeviceViewModel>().ReverseMap();
             CreateMap<Device, DeviceViewModel>().ReverseMap();
+            CreateMap<Device, DeviceConfigViewModel>().ReverseMap();
         }
     }
 }
