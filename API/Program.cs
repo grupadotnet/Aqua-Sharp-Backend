@@ -22,7 +22,6 @@ builder.Services.AddDbContext<Context>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
 });
 
-
 #region Inject services
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 

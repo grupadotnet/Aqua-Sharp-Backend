@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.Metrics;
+using System.Diagnostics.Metrics;
 using Aqua_Sharp_Backend.Contexts;
 using Aqua_Sharp_Backend.Interfaces;
 using Models.ViewModels.Measurement;

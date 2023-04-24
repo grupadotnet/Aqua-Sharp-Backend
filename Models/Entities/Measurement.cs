@@ -1,4 +1,4 @@
-﻿namespace Models.Entities
+namespace Models.Entities
 {
     public class Measurement 
     { 
@@ -7,8 +7,7 @@
         public float Temperature { get; set; }
         public uint TDS { get; set; }
         public bool LightOn { get; set; }
-
+        
         public int AquariumId { get; set; }
-        //public Aquarium Aquarium { get; set; }
     }
 }

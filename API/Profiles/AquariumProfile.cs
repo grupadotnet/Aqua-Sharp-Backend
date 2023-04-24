@@ -1,4 +1,4 @@
-﻿using Models.ViewModels.Aquarium;
+using Models.ViewModels.Aquarium;
 
 namespace Aqua_Sharp_Backend.Profiles
 {
@@ -7,6 +7,7 @@ namespace Aqua_Sharp_Backend.Profiles
         public AquariumProfile()
         {
             CreateMap<Aquarium, CreateAquariumViewModel>().ReverseMap();
+
             CreateMap<Aquarium, AquariumViewModel>().ReverseMap();
         }
     }
