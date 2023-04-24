@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Aqua_Sharp_Backend.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230316183438_InitialCreate")]
+    [Migration("20230424194307_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -147,7 +147,7 @@ namespace Aqua_Sharp_Backend.Migrations
                         .HasColumnType("real");
 
                     b.Property<DateTime>("Time")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("MeasurementId");
 
