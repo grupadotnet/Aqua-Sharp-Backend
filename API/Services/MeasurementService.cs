@@ -30,7 +30,7 @@ namespace Aqua_Sharp_Backend.Services
 
         public async Task Delete(int id)
         {
-            var measurement = await _context.Measurements.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
+            var measurement = await _context.Measurements.AsNoTracking().FirstOrDefaultAsync(e => e.MeasurementId == id);
 
             if (measurement is null)
                 return;
