@@ -24,17 +24,14 @@ namespace Aqua_Sharp_Backend.Migrations
 
             modelBuilder.Entity("Models.Entities.Aquarium", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AquariumId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AquariumId"));
 
                     b.Property<TimeOnly>("Dawn")
                         .HasColumnType("time without time zone");
-
-                    b.Property<int>("DeviceId")
-                        .HasColumnType("integer");
 
                     b.Property<long>("Height")
                         .HasColumnType("bigint");
@@ -58,21 +55,18 @@ namespace Aqua_Sharp_Backend.Migrations
                     b.Property<long>("Width")
                         .HasColumnType("bigint");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("DeviceId")
-                        .IsUnique();
+                    b.HasKey("AquariumId");
 
                     b.ToTable("Aquarium");
                 });
 
             modelBuilder.Entity("Models.Entities.Config", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ConfigId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ConfigId"));
 
                     b.Property<string>("Answer")
                         .IsRequired()
@@ -89,14 +83,14 @@ namespace Aqua_Sharp_Backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("ConfigId");
 
                     b.ToTable("Config");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            ConfigId = 1,
                             Answer = "",
                             FirstRun = true,
                             Password = "password",
@@ -106,11 +100,14 @@ namespace Aqua_Sharp_Backend.Migrations
 
             modelBuilder.Entity("Models.Entities.Device", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("DeviceId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DeviceId"));
+
+                    b.Property<int>("AquariumId")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("ManualMode")
                         .HasColumnType("boolean");
@@ -118,7 +115,10 @@ namespace Aqua_Sharp_Backend.Migrations
                     b.Property<long>("MeasurementFrequency")
                         .HasColumnType("bigint");
 
-                    b.HasKey("Id");
+                    b.HasKey("DeviceId");
+
+                    b.HasIndex("AquariumId")
+                        .IsUnique();
 
                     b.ToTable("Devices");
                 });
@@ -144,27 +144,27 @@ namespace Aqua_Sharp_Backend.Migrations
                         .HasColumnType("real");
 
                     b.Property<DateTime>("Time")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
                     b.ToTable("Measurements");
                 });
 
-            modelBuilder.Entity("Models.Entities.Aquarium", b =>
+            modelBuilder.Entity("Models.Entities.Device", b =>
                 {
-                    b.HasOne("Models.Entities.Device", "Device")
-                        .WithOne("Aquarium")
-                        .HasForeignKey("Models.Entities.Aquarium", "DeviceId")
+                    b.HasOne("Models.Entities.Aquarium", "Aquarium")
+                        .WithOne("Device")
+                        .HasForeignKey("Models.Entities.Device", "AquariumId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Device");
+                    b.Navigation("Aquarium");
                 });
 
-            modelBuilder.Entity("Models.Entities.Device", b =>
+            modelBuilder.Entity("Models.Entities.Aquarium", b =>
                 {
-                    b.Navigation("Aquarium")
+                    b.Navigation("Device")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618
