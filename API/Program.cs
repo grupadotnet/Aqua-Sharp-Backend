@@ -22,15 +22,15 @@ builder.Services.AddDbContext<Context>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
 });
 
-
 #region Inject services
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
-builder.Services.AddScoped<IAquariumService, AquariumService>();
-builder.Services.AddScoped<IMeasurementService, MeasurementService>();
-builder.Services.AddScoped<IConfigService, ConfigService>();
-builder.Services.AddHostedService<MqttClientService>();
-builder.Services.AddScoped<IDeviceService, DeviceService>();
 
+builder.Services.AddScoped<IAquariumService, AquariumService>();
+builder.Services.AddScoped<IConfigService, ConfigService>();
+builder.Services.AddScoped<IDeviceService, DeviceService>();
+builder.Services.AddScoped<IMeasurementService, MeasurementService>();
+
+builder.Services.AddHostedService<MqttClientService>();
 #endregion
 
 var app = builder.Build();
@@ -46,7 +46,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     seeder.Seed();
 }
-
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
 

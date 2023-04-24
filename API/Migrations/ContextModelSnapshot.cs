@@ -125,11 +125,11 @@ namespace Aqua_Sharp_Backend.Migrations
 
             modelBuilder.Entity("Models.Entities.Measurement", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MeasurementId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("MeasurementId"));
 
                     b.Property<int>("AquariumId")
                         .HasColumnType("integer");
@@ -146,7 +146,7 @@ namespace Aqua_Sharp_Backend.Migrations
                     b.Property<DateTime>("Time")
                         .HasColumnType("timestamp without time zone");
 
-                    b.HasKey("Id");
+                    b.HasKey("MeasurementId");
 
                     b.ToTable("Measurements");
                 });

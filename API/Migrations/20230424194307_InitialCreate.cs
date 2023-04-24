@@ -54,11 +54,11 @@ namespace Aqua_Sharp_Backend.Migrations
                 {
                     MeasurementId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    AquariumId = table.Column<int>(type: "integer", nullable: false),
-                    Time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Time = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Temperature = table.Column<float>(type: "real", nullable: false),
                     TDS = table.Column<long>(type: "bigint", nullable: false),
-                    LightOn = table.Column<bool>(type: "boolean", nullable: false)
+                    LightOn = table.Column<bool>(type: "boolean", nullable: false),
+                    AquariumId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {

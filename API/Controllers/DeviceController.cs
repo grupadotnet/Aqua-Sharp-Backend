@@ -1,4 +1,4 @@
-﻿using System.Net.Sockets;
+using System.Net.Sockets;
 using Aqua_Sharp_Backend.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +24,7 @@ namespace Aqua_Sharp_Backend.Controllers
 
             return Ok(device);
         }
-        
+
         [HttpGet("{id}/config")]
         public async Task<IActionResult> GetConfig(int id)
         {
