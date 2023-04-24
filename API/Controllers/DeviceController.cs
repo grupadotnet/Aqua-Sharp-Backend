@@ -25,14 +25,6 @@ namespace Aqua_Sharp_Backend.Controllers
             return Ok(device);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Add([FromBody] CreateDeviceViewModel createDeviceViewModel)
-        {
-            var device = await _deviceService.Add(createDeviceViewModel);
-
-            return Ok(device);
-        }
-        
         [HttpGet("{id}/config")]
         public async Task<IActionResult> GetConfig(int id)
         {
