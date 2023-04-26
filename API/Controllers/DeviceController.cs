@@ -39,5 +39,12 @@ namespace Aqua_Sharp_Backend.Controllers
             await _deviceService.SwitchMode(id, manual);
             return Ok();
         }
+        
+        [HttpPatch("{id}/lights")]
+        public async Task<IActionResult> SwitchLights(int id, [FromQuery] bool lightsOn)
+        {
+            await _deviceService.SwitchLights(id, lightsOn);
+            return Ok();
+        }
     }
 }
