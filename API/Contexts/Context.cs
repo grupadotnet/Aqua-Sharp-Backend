@@ -35,7 +35,7 @@ namespace Aqua_Sharp_Backend.Contexts
                 .HasData(new Config
                 {
                     ConfigId = 1,
-                    Password = "password",
+                    Password = "AQAAAAIAAYagAAAAEL4Pun26YTba5pDt4Fc+EwYhVYl9wcF+0+5g7sNCk7O2f3gy1+4ByFs6HCs/sZXatQ==",
                     FirstRun = true,
                     Question = "",
                     Answer = ""
