@@ -23,18 +23,20 @@ namespace Aqua_Sharp_Backend.Services
         public async Task<Aquarium> Add(CreateAquariumViewModel createAquariumViewModel)
         {
             var aquarium = _mapper.Map<Aquarium>(createAquariumViewModel);
-            await _context.Aquarium.AddAsync(aquarium);
+            var addedAquarium = await _context.Aquarium.AddAsync(aquarium);
 
             var createDeviceViewModel = new CreateDeviceViewModel()
             {
-                Aquarium = aquarium,
+                Aquarium = addedAquarium.Entity,
                 MeasurementFrequency = createAquariumViewModel.MeasurementFrequency
             };
            await _deviceService.Add(createDeviceViewModel);
 
            await _context.SaveChangesAsync();
+
+           var addedAquariumWithDevice = await Get(addedAquarium.Entity.AquariumId);
            
-           return aquarium;
+           return addedAquariumWithDevice;
         }
 
         public async Task Delete(int id)
