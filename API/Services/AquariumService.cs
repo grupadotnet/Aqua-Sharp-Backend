@@ -30,13 +30,13 @@ namespace Aqua_Sharp_Backend.Services
                 Aquarium = addedAquarium.Entity,
                 MeasurementFrequency = createAquariumViewModel.MeasurementFrequency
             };
-           await _deviceService.Add(createDeviceViewModel);
+            await _deviceService.Add(createDeviceViewModel);
+            
+            await _context.SaveChangesAsync();
 
-           await _context.SaveChangesAsync();
-
-           var addedAquariumWithDevice = await Get(addedAquarium.Entity.AquariumId);
+            var addedAquariumWithDevice = await Get(addedAquarium.Entity.AquariumId);
            
-           return addedAquariumWithDevice;
+            return addedAquariumWithDevice;
         }
 
         public async Task Delete(int id)

@@ -21,6 +21,5 @@ namespace Models.ViewModels.Aquarium
         public TimeOnly Sunset { get; set; }
 
         public DeviceViewModel Device{ get; set; }
-        public int DeviceId { get; set; }
     }
 }
