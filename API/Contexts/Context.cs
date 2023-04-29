@@ -7,14 +7,12 @@ namespace Aqua_Sharp_Backend.Contexts
     {
         #region Entities
         
-        public virtual DbSet<Aquarium> Aquarium { get; set; }
-        public virtual DbSet<Config> Config { get; set; }
-        public virtual DbSet<Device> Devices { get; set; }
-        public virtual DbSet<Measurement> Measurements{ get; set; }
+        public DbSet<Aquarium> Aquarium { get; set; }
+        public DbSet<Config> Config { get; set; }
+        public DbSet<Device> Devices { get; set; }
+        public DbSet<Measurement> Measurements{ get; set; }
 
         #endregion
-        
-        public Context() { }
         
         public Context(DbContextOptions<Context> options): base(options) { }
         
