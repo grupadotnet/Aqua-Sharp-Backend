@@ -10,7 +10,7 @@ namespace Models.ViewModels.Aquarium
 {
     public class AquariumViewModel
     {
-        public int Id { get; set; }
+        public int AquariumId { get; set; }
         public string Name { get; set; }
         public uint Length { get; set; }
         public uint Width { get; set; }

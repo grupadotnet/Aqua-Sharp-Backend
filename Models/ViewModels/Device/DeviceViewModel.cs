@@ -4,7 +4,7 @@ namespace Models.ViewModels.Device
 {
     public class DeviceViewModel
     {
-        public int Id { get; set; }
+        public int DeviceId { get; set; }
         public uint MeasurementFrequency { get; set; }
         public bool ManualMode { get; set; } = false;
 
