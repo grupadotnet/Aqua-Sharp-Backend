@@ -2,10 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Models.ViewModels.Aquarium;
 
+using Microsoft.AspNetCore.Authorization;
+
 namespace Aqua_Sharp_Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class AquariumController : ControllerBase
     {
         private readonly IAquariumService _aquariumService;

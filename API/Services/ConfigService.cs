@@ -59,8 +59,7 @@ namespace Aqua_Sharp_Backend.Services
                 {
                 
                 new Claim(ClaimTypes.NameIdentifier, config.ConfigId.ToString()),
-                new Claim("AquariumsIds", aquariums.Select(a=>a.AquariumId).ToString()),
-                new Claim("DevicesIds", devices.Select(a=>a.DeviceId).ToString())
+                
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey));

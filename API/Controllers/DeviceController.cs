@@ -1,5 +1,6 @@
 using System.Net.Sockets;
 using Aqua_Sharp_Backend.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.ViewModels.Device;
@@ -8,6 +9,7 @@ namespace Aqua_Sharp_Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DeviceController : ControllerBase
     {
         private readonly IDeviceService _deviceService;
