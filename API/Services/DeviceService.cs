@@ -2,6 +2,7 @@
 using Aqua_Sharp_Backend.Contexts;
 using Aqua_Sharp_Backend.Exceptions;
 using Aqua_Sharp_Backend.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Models.ViewModels.Device;
 using MQTTnet;
 using MQTTnet.Client;
@@ -69,11 +70,24 @@ namespace Aqua_Sharp_Backend.Services
 
         }
 
-        public Task<Device> Update()
+        public async Task Update(Device device)
         {
-            throw new NotImplementedException();
-        }
+            // get the device to update from the database
+            var deviceToUpdate = await _context.Devices.FindAsync(device.DeviceId);
 
+            if (deviceToUpdate == null)
+            {
+                throw new ArgumentException($"Device with ID {device.DeviceId} not found.");
+            }
+
+            // update the device with the new values
+            deviceToUpdate.MeasurementFrequency = device.MeasurementFrequency;
+            deviceToUpdate.ManualMode = device.ManualMode;
+            deviceToUpdate.AquariumId = device.AquariumId;
+
+            // save the changes to the database
+            await _context.SaveChangesAsync();
+        }
         public async Task<bool> CheckIfDeviceExistsAsync(int id)
         {
             return await _context.Devices

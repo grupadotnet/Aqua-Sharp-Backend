@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Models.Entities
+namespace Models.ViewModels.Aquarium
 {
-    public class Aquarium
+    public class EditAquariumViewModel
     {
-        public int AquariumId { get; set; }
         public string Name { get; set; }
         public uint Length { get; set; }
         public uint Width { get; set; }
@@ -18,7 +16,6 @@ namespace Models.Entities
         public float PH { get; set; }
         public TimeOnly Dawn { get; set; }
         public TimeOnly Sunset { get; set; }
-        [JsonIgnore]
-        public Device Device { get; set; }
+        public uint MeasurementFrequency { get; set; }
     }
 }

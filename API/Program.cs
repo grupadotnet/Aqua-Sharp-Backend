@@ -4,6 +4,7 @@ using Aqua_Sharp_Backend.Interfaces;
 using Aqua_Sharp_Backend.Middleware;
 using Aqua_Sharp_Backend.Services;
 using Aqua_Sharp_Backend.Seeder;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,12 +17,20 @@ builder.Services.AddScoped<AquariumSeeder>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "ContosoRecipes", Version = "v1" });
+}).AddSwaggerGenNewtonsoftSupport();
+
 builder.Services.AddDbContext<Context>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
 });
-
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+});
 #region Inject services
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
