@@ -4,6 +4,7 @@ using Aqua_Sharp_Backend.Interfaces;
 using Aqua_Sharp_Backend.Middleware;
 using Aqua_Sharp_Backend.Services;
 using Aqua_Sharp_Backend.Seeder;
+using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,9 @@ builder.Services.AddScoped<IMeasurementService, MeasurementService>();
 
 builder.Services.AddHostedService<MqttClientService>();
 #endregion
+
+// Setup NLog for Dependency injection
+builder.Host.UseNLog();
 
 var app = builder.Build();
 
