@@ -11,5 +11,6 @@ namespace Aqua_Sharp_Backend.Interfaces
         Task<DeviceConfigViewModel> GetDeviceConfig(int id);
         Task<bool> CheckIfDeviceExistsAsync(int id);
         Task SwitchMode(int id, bool manual);
+        Task SwitchLights(int id, bool lightsOn);
     }
 }
