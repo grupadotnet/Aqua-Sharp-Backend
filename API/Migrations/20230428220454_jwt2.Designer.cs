@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Aqua_Sharp_Backend.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230424194307_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230428220454_jwt2")]
+    partial class jwt2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -96,7 +96,7 @@ namespace Aqua_Sharp_Backend.Migrations
                             ConfigId = 1,
                             Answer = "",
                             FirstRun = true,
-                            Password = "password",
+                            Password = "AQAAAAIAAYagAAAAEL4Pun26YTba5pDt4Fc+EwYhVYl9wcF+0+5g7sNCk7O2f3gy1+4ByFs6HCs/sZXatQ==",
                             Question = ""
                         });
                 });
