@@ -43,18 +43,18 @@ namespace Aqua_Sharp_Backend.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-
             await _aquariumService.Delete(id);
-
+            
             return NoContent();
-
         }
+        
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] CreateAquariumViewModel createAquariumViewModel)
         {
-            var res = await _aquariumService.Add(createAquariumViewModel);
-
-            return Ok(res);
+            var aquarium = await _aquariumService.Add(createAquariumViewModel);
+            
+            var aquariumViewModel = _mapper.Map<AquariumViewModel>(aquarium);
+            return Ok(aquariumViewModel);
         }
     }
 }

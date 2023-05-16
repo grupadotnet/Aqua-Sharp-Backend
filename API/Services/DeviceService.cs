@@ -28,7 +28,7 @@ namespace Aqua_Sharp_Backend.Services
             _client.ConnectAsync(_clientOptions, CancellationToken.None);
         }
 
-        public async Task<Device> Add(CreateDeviceViewModel createDeviceViewModel)
+        public async Task<bool> Add(CreateDeviceViewModel createDeviceViewModel)
         {
             if (createDeviceViewModel.Aquarium.Device != null)
                 throw new BadRequest400Exception(
@@ -39,7 +39,7 @@ namespace Aqua_Sharp_Backend.Services
             var addedDevice = await _context.Devices.AddAsync(deviceToAdd);
             await _context.SaveChangesAsync();
 
-            return addedDevice.Entity;
+            return addedDevice.Entity != null;
         }
 
         public Task Delete()
@@ -90,8 +90,19 @@ namespace Aqua_Sharp_Backend.Services
 
             await SendMessage(id, manual, "mode");
         }
+        public async Task SwitchLights(int id, bool lightsOn)
+        {
+            var device = await Get(id);
 
-        private async Task SendMessage(int id, bool value, string subTheme)
+            if (device.ManualMode == false)
+            {
+                throw new BadRequest400Exception("Manual mode is turned off.");
+            }
+
+            await SendMessage(id, lightsOn, "lights");
+        }
+
+        private async Task SendMessage(int id, bool value, string subTopic)
         {
             if (!_client.IsConnected)
             {
@@ -99,7 +110,7 @@ namespace Aqua_Sharp_Backend.Services
             }
 
             var message = new MqttApplicationMessageBuilder()
-                .WithTopic($"device/{id}/mode")
+                .WithTopic($"device/{id}/{subTopic}")
                 .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce)
                 .WithPayload(JsonSerializer.Serialize(value))
                 .Build();

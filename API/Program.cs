@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,6 +61,9 @@ builder.Services.AddScoped<IMeasurementService, MeasurementService>();
 
 builder.Services.AddHostedService<MqttClientService>();
 #endregion
+
+// Setup NLog for Dependency injection
+builder.Host.UseNLog();
 
 var app = builder.Build();
 

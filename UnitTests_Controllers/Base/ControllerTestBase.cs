@@ -1,7 +1,7 @@
 using AutoMapper;
 using Xunit.Abstractions;
 
-namespace UnitTests
+namespace UnitTests_Controllers.Base
 {
     public abstract class ControllerTestBase
     {
