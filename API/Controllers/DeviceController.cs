@@ -2,7 +2,9 @@ using System.Net.Sockets;
 using Aqua_Sharp_Backend.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Models.ViewModels.Aquarium;
 using Models.ViewModels.Device;
 
 namespace Aqua_Sharp_Backend.Controllers
@@ -48,5 +50,13 @@ namespace Aqua_Sharp_Backend.Controllers
             await _deviceService.SwitchLights(id, lightsOn);
             return Ok();
         }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateDevice(int id, [FromBody] JsonPatchDocument<EditAquariumViewModel> deviceModel)
+        {
+            await _deviceService.Update(id, deviceModel);
+            return Ok();
+        }
     }
 }
+    
