@@ -3,6 +3,7 @@ using Aqua_Sharp_Backend.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Models.ViewModels.Aquarium;
 using Models.ViewModels.Device;
 
 namespace Aqua_Sharp_Backend.Controllers
@@ -40,38 +41,13 @@ namespace Aqua_Sharp_Backend.Controllers
             await _deviceService.SwitchMode(id, manual);
             return Ok();
         }
+
         [HttpPatch("{id}")]
-        public async Task<IActionResult> UpdateDevice(int id, [FromBody] JsonPatchDocument<Device> deviceUpdate)
+        public async Task<IActionResult> UpdateDevice(int id, [FromBody] JsonPatchDocument<EditAquariumViewModel> deviceModel)
         {
-            var device = await _deviceService.Get(id);
-
-            if (device == null)
-            {
-                return NotFound();
-            }
-
-            // create a temporary device with only the MeasurementFrequency property
-            var deviceToPatch = new Device
-            {
-                MeasurementFrequency = device.MeasurementFrequency
-            };
-
-            // apply the JsonPatchDocument to the temporary device
-            deviceUpdate.ApplyTo(deviceToPatch, ModelState);
-
-            // check for any validation errors
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            // update the device's MeasurementFrequency property
-            device.MeasurementFrequency = deviceToPatch.MeasurementFrequency;
-
-            // save the changes to the database
-            await _deviceService.Update(device);
-
-            return NoContent();
+            await _deviceService.Update(id, deviceModel);
+            return Ok();
         }
     }
-    }
+}
+    

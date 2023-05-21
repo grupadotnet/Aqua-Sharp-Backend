@@ -2,7 +2,9 @@
 using Aqua_Sharp_Backend.Contexts;
 using Aqua_Sharp_Backend.Exceptions;
 using Aqua_Sharp_Backend.Interfaces;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
+using Models.ViewModels.Aquarium;
 using Models.ViewModels.Device;
 using MQTTnet;
 using MQTTnet.Client;
@@ -70,23 +72,37 @@ namespace Aqua_Sharp_Backend.Services
 
         }
 
-        public async Task Update(Device device)
+        public async Task Update(int id, JsonPatchDocument<EditAquariumViewModel> deviceModel)
         {
-            // get the device to update from the database
-            var deviceToUpdate = await _context.Devices.FindAsync(device.DeviceId);
+            var deviceToUpdate = await _context.Devices.FindAsync(id);
 
-            if (deviceToUpdate == null)
+            if (deviceToUpdate != null)
             {
-                throw new ArgumentException($"Device with ID {device.DeviceId} not found.");
+                if (deviceToUpdate.Aquarium == null)
+                {
+                    deviceToUpdate.Aquarium = new Aquarium(); 
+                }
+
+                var editAquariumViewModel = new EditAquariumViewModel()
+                {
+                    Name = deviceToUpdate.Aquarium.Name,
+                    Temperature = deviceToUpdate.Aquarium.Temperature,
+                    PH = deviceToUpdate.Aquarium.PH,
+                    Dawn = deviceToUpdate.Aquarium.Dawn,
+                    Sunset = deviceToUpdate.Aquarium.Sunset
+                };
+                deviceModel.ApplyTo(editAquariumViewModel);
+
+                deviceToUpdate.Aquarium.Name = editAquariumViewModel.Name;
+                deviceToUpdate.Aquarium.Temperature = editAquariumViewModel.Temperature;
+                deviceToUpdate.Aquarium.PH = editAquariumViewModel.PH;
+                deviceToUpdate.Aquarium.Dawn = editAquariumViewModel.Dawn;
+                deviceToUpdate.Aquarium.Sunset = editAquariumViewModel.Sunset;
+                deviceToUpdate.MeasurementFrequency = editAquariumViewModel.MeasurementFrequency;
+
+
+                await _context.SaveChangesAsync();
             }
-
-            // update the device with the new values
-            deviceToUpdate.MeasurementFrequency = device.MeasurementFrequency;
-            deviceToUpdate.ManualMode = device.ManualMode;
-            deviceToUpdate.AquariumId = device.AquariumId;
-
-            // save the changes to the database
-            await _context.SaveChangesAsync();
         }
         public async Task<bool> CheckIfDeviceExistsAsync(int id)
         {

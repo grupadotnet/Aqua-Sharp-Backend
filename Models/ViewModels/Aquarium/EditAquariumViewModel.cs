@@ -9,9 +9,6 @@ namespace Models.ViewModels.Aquarium
     public class EditAquariumViewModel
     {
         public string Name { get; set; }
-        public uint Length { get; set; }
-        public uint Width { get; set; }
-        public uint Height { get; set; }
         public float Temperature { get; set; }
         public float PH { get; set; }
         public TimeOnly Dawn { get; set; }
