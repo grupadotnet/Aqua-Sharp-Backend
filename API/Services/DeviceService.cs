@@ -31,7 +31,7 @@ namespace Aqua_Sharp_Backend.Services
             _client.ConnectAsync(_clientOptions, CancellationToken.None);
         }
 
-        public async Task<bool> Add(CreateDeviceViewModel createDeviceViewModel)
+        public async Task<Device> Add(CreateDeviceViewModel createDeviceViewModel)
         {
             if (createDeviceViewModel.Aquarium.Device != null)
                 throw new BadRequest400Exception(
