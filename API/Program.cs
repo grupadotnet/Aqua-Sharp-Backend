@@ -59,7 +59,7 @@ builder.Services.AddScoped<IConfigService, ConfigService>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IMeasurementService, MeasurementService>();
 
-builder.Services.AddHostedService<MqttClientService>();
+//builder.Services.AddHostedService<MqttClientService>();
 #endregion
 
 // Setup NLog for Dependency injection
