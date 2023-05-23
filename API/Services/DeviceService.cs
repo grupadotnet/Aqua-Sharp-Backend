@@ -13,8 +13,8 @@ namespace Aqua_Sharp_Backend.Services
     {
         private readonly Context _context;
         private readonly IMapper _mapper;
-        private readonly IMqttClient _client;
-        private readonly MqttClientOptions _clientOptions;
+        //private readonly IMqttClient _client;
+        //private readonly MqttClientOptions _clientOptions;
 
         public DeviceService(Context context, IMapper mapper, IConfiguration configuration)
         {
@@ -22,10 +22,10 @@ namespace Aqua_Sharp_Backend.Services
             _mapper = mapper;
 
             var factory = new MqttFactory();
-            _client = factory.CreateMqttClient();
-            _clientOptions = new MqttClientOptionsBuilder()
-                .WithTcpServer(configuration.GetValue<string>("Mqtt:Address")).Build();
-            _client.ConnectAsync(_clientOptions, CancellationToken.None);
+            //_client = factory.CreateMqttClient();
+            //_clientOptions = new MqttClientOptionsBuilder()
+            //    .WithTcpServer(configuration.GetValue<string>("Mqtt:Address")).Build();
+            //_client.ConnectAsync(_clientOptions, CancellationToken.None);
         }
 
         public async Task<bool> Add(CreateDeviceViewModel createDeviceViewModel)
@@ -83,39 +83,42 @@ namespace Aqua_Sharp_Backend.Services
 
         public async Task SwitchMode(int id, bool manual)
         {
-            var device = await Get(id);
-            device.ManualMode = manual;
-            _context.Devices.Update(device);
-            await _context.SaveChangesAsync();
 
-            await SendMessage(id, manual, "mode");
+            throw new NotImplementedException();
+            //var device = await Get(id);
+            //device.ManualMode = manual;
+            //_context.Devices.Update(device);
+            //await _context.SaveChangesAsync();
+
+            //await SendMessage(id, manual, "mode");
         }
         public async Task SwitchLights(int id, bool lightsOn)
         {
-            var device = await Get(id);
+            throw new NotImplementedException();
+            //var device = await Get(id);
 
-            if (device.ManualMode == false)
-            {
-                throw new BadRequest400Exception("Manual mode is turned off.");
-            }
+            //if (device.ManualMode == false)
+            //{
+            //    throw new BadRequest400Exception("Manual mode is turned off.");
+            //}
 
-            await SendMessage(id, lightsOn, "lights");
+            //await SendMessage(id, lightsOn, "lights");
         }
 
-        private async Task SendMessage(int id, bool value, string subTopic)
-        {
-            if (!_client.IsConnected)
-            {
-                await _client.ConnectAsync(_clientOptions, CancellationToken.None);
-            }
+        //private async Task SendMessage(int id, bool value, string subTopic)
+        //{
+        //    if (!_client.IsConnected)
+        //    {
+        //        await _client.ConnectAsync(_clientOptions, CancellationToken.None);
+        //    }
 
-            var message = new MqttApplicationMessageBuilder()
-                .WithTopic($"device/{id}/{subTopic}")
-                .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce)
-                .WithPayload(JsonSerializer.Serialize(value))
-                .Build();
-            await _client.PublishAsync(message);
+        //    var message = new MqttApplicationMessageBuilder()
+        //        .WithTopic($"device/{id}/{subTopic}")
+        //        .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce)
+        //        .WithPayload(JsonSerializer.Serialize(value))
+        //        .Build();
+        //    await _client.PublishAsync(message);
             
-        }
+        //}
 }
 }

@@ -5,7 +5,7 @@ using Models.ViewModels.Measurement;
 using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Protocol;
-
+using System.Security.Authentication;
 namespace Aqua_Sharp_Backend.Services;
 
 public sealed class MqttClientService: BackgroundService
@@ -21,11 +21,19 @@ public sealed class MqttClientService: BackgroundService
         
         var factory = new MqttFactory();
         _client = factory.CreateMqttClient();
-        _clientOptions = new MqttClientOptionsBuilder().WithTcpServer(configuration.GetValue<string>("Mqtt:Address")).Build();
+        _clientOptions = new MqttClientOptionsBuilder()
+            .WithClientId("Backend")
+            .WithTcpServer(configuration.GetValue<string>("Mqtt:Address"))
+            .WithCredentials("mqtt-aquasharp-westeu-dev-001.azure-devices.net/Backend", "ipANrXkE+GV2Ts7nNh9Fh9X7g8ZNUqWXRul+jb1am64=")
+            .WithTls(new MqttClientOptionsBuilderTlsParameters
+            {
+                UseTls = true,
+             })
+            .Build();
         _subscriptionOptions = factory.CreateSubscribeOptionsBuilder().WithTopicFilter(f =>
         {
             f.WithTopic("measurement/#");
-            f.WithAtMostOnceQoS();
+            f.WithAtMostOnceQoS(); ;
         }).Build();
         
         _client.ApplicationMessageReceivedAsync += HandleMessageAsync;

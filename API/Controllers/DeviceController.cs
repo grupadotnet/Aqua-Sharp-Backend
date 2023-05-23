@@ -35,18 +35,18 @@ namespace Aqua_Sharp_Backend.Controllers
             return Ok(config);
         }
 
-        [HttpPatch("{id}/mode")]
-        public async Task<IActionResult> SwitchMode(int id, [FromQuery] bool manual)
-        {
-            await _deviceService.SwitchMode(id, manual);
-            return Ok();
-        }
+        //[HttpPatch("{id}/mode")]
+        //public async Task<IActionResult> SwitchMode(int id, [FromQuery] bool manual)
+        //{
+        //    await _deviceService.SwitchMode(id, manual);
+        //    return Ok();
+        //}
         
-        [HttpPatch("{id}/lights")]
-        public async Task<IActionResult> SwitchLights(int id, [FromQuery] bool lightsOn)
-        {
-            await _deviceService.SwitchLights(id, lightsOn);
-            return Ok();
-        }
+        //[HttpPatch("{id}/lights")]
+        //public async Task<IActionResult> SwitchLights(int id, [FromQuery] bool lightsOn)
+        //{
+        //    await _deviceService.SwitchLights(id, lightsOn);
+        //    return Ok();
+        //}
     }
 }
