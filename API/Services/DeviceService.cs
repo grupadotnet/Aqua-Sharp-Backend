@@ -102,7 +102,7 @@ namespace Aqua_Sharp_Backend.Services
 
                 if (string.IsNullOrEmpty(editAquariumViewModel.Name))
                 {
-                    editAquariumViewModel.Name = "Untitled";
+                    editAquariumViewModel.Name = "Untitled"; // jeśli nie chcemy tej domyślnej nazwy nasza kolumna Name musi móc przyjmować wartość null
                 }
                 if (deviceModel.Operations.Any())
                 {
