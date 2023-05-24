@@ -1,4 +1,6 @@
-﻿using Models.ViewModels.Device;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Models.ViewModels.Aquarium;
+using Models.ViewModels.Device;
 
 namespace Aqua_Sharp_Backend.Interfaces
 {
@@ -6,6 +8,8 @@ namespace Aqua_Sharp_Backend.Interfaces
     {
         Task<bool> Add(CreateDeviceViewModel createDeviceViewModel);
         Task<Device> Update();
+        Task Update(int id, JsonPatchDocument<EditAquariumViewModel> deviceModel);
+
         Task<Device> Get(int id);
         Task Delete();
         Task<DeviceConfigViewModel> GetDeviceConfig(int id);
