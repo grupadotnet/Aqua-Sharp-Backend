@@ -100,7 +100,10 @@ namespace Aqua_Sharp_Backend.Services
 
                 deviceModel.ApplyTo(editAquariumViewModel);
 
-                // Update only the modified properties
+                if (string.IsNullOrEmpty(editAquariumViewModel.Name))
+                {
+                    editAquariumViewModel.Name = "Untitled";
+                }
                 if (deviceModel.Operations.Any())
                 {
                     deviceToUpdate.Aquarium.Name = editAquariumViewModel.Name;
@@ -159,7 +162,7 @@ namespace Aqua_Sharp_Backend.Services
         //        .WithPayload(JsonSerializer.Serialize(value))
         //        .Build();
         //    await _client.PublishAsync(message);
-            
+
         //}
-}
+    }
 }
