@@ -11,10 +11,28 @@ namespace Aqua_Sharp_Backend.Seeder
             _dbContext = dbContext;
         }
 
+        public void Migrate()
+        {
+            if (!_dbContext.Database.CanConnect()) return;
+
+            var pendingMigrations = _dbContext.Database.GetPendingMigrations();
+
+            if(pendingMigrations !=  null && pendingMigrations.Any())
+            {
+                _dbContext.Database.Migrate();
+            }
+        }
+
         public void Seed()
         {
             if (!_dbContext.Database.CanConnect()) return;
-            
+
+            var pendingMigrations=_dbContext.Database.GetPendingMigrations();
+            if(pendingMigrations != null && pendingMigrations.Any())
+            {
+                _dbContext.Database.Migrate();
+            }
+
             var aquarius = _dbContext.Aquarium.ToList();
             if (!aquarius.Any())
             {

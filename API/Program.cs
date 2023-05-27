@@ -71,6 +71,7 @@ var app = builder.Build();
 
 var scope = app.Services.CreateScope();
 var seeder = scope.ServiceProvider.GetRequiredService<AquariumSeeder>();
+seeder.Migrate();
 
 if (app.Environment.IsDevelopment())
 {
