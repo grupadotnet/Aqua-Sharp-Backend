@@ -58,8 +58,9 @@ builder.Services.AddScoped<IAquariumService, AquariumService>();
 builder.Services.AddScoped<IConfigService, ConfigService>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IMeasurementService, MeasurementService>();
+builder.Services.AddCors();
 
-builder.Services.AddHostedService<MqttClientService>();
+//builder.Services.AddHostedService<MqttClientService>();
 #endregion
 
 // Setup NLog for Dependency injection
@@ -71,6 +72,7 @@ var app = builder.Build();
 
 var scope = app.Services.CreateScope();
 var seeder = scope.ServiceProvider.GetRequiredService<AquariumSeeder>();
+seeder.Migrate();
 
 if (app.Environment.IsDevelopment())
 {
@@ -88,5 +90,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
 
 app.Run();
