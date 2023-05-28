@@ -6,8 +6,8 @@ namespace Aqua_Sharp_Backend.Interfaces
     public interface IMeasurementService
     {
         Task<Measurement> Create(CreateMeasurementViewModel viewModel);
-        Task<List<Measurement>> Get(int pageNumber);
-        Task<List<Measurement>> Get(int start, int end);
+        Task<List<Measurement>> Get(GetMeasurementsPaginationViewModel paginationViewModel);
+        Task<List<Measurement>> Get(GetMeasurementsStartFromViewModel viewModel);
         Task Delete(int id);
     }
 }
