@@ -8,7 +8,7 @@ namespace Models.ViewModels.Aquarium
 {
     public class EditAquariumViewModel
     {
-        public string? Name { get; set; }
+        public string Name { get; set; }
         public float Temperature { get; set; }
         public float PH { get; set; }
         public TimeOnly Dawn { get; set; }
