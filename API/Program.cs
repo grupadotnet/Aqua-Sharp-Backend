@@ -76,10 +76,11 @@ seeder.Migrate();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
     seeder.Seed();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
 

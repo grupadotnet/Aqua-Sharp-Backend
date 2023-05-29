@@ -12,12 +12,28 @@ namespace Aqua_Sharp_Backend.Controllers
     public class MeasurementController : ControllerBase
     {
         private readonly IMeasurementService _measurementService;
-
+        
         public MeasurementController(IMeasurementService measurementService)
         {
             _measurementService = measurementService; 
         }
 
+        [HttpGet("pagination")]
+        public async Task<IActionResult> Get([FromQuery] GetMeasurementsPaginationViewModel paginationViewModel)
+        {
+            var res = await _measurementService.Get(paginationViewModel);
+
+            return Ok(res);
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> Get([FromQuery] GetMeasurementsStartFromViewModel viewModel)
+        {
+            var res = await _measurementService.Get(viewModel);
+
+            return Ok(res);
+        }
+        
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
