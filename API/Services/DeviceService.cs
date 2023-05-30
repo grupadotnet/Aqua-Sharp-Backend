@@ -12,6 +12,7 @@ using MQTTnet.Protocol;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace Aqua_Sharp_Backend.Services
 {
@@ -85,6 +86,16 @@ namespace Aqua_Sharp_Backend.Services
 
             if (deviceToUpdate != null)
             {
+                var invalidProperties = deviceModel.Operations
+                    .Select(o => o.path)
+                    .Where(p => !IsValidProperty(p, typeof(EditAquariumViewModel)))
+                    .ToList();
+
+                if (invalidProperties.Any())
+                {
+                    throw new BadRequest400Exception($"Cannot modify properties: {string.Join(", ", invalidProperties)}!");
+
+                }
                 var editAquariumViewModel = _mapper.Map<EditAquariumViewModel>(deviceToUpdate.Aquarium);
                 deviceModel.ApplyTo(editAquariumViewModel);
                 _mapper.Map(editAquariumViewModel, deviceToUpdate.Aquarium);
@@ -94,8 +105,14 @@ namespace Aqua_Sharp_Backend.Services
 
                 await _context.SaveChangesAsync();
             }
+
      
     }
+        private bool IsValidProperty(string path, Type type)
+        {
+            var property = type.GetProperty(path, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+            return property != null;
+        }
 
         public async Task<bool> CheckIfDeviceExistsAsync(int id)
         {
