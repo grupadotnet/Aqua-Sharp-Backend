@@ -2,10 +2,17 @@
 using Aqua_Sharp_Backend.Contexts;
 using Aqua_Sharp_Backend.Exceptions;
 using Aqua_Sharp_Backend.Interfaces;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.JsonPatch.Operations;
+using Models.ViewModels.Aquarium;
 using Models.ViewModels.Device;
 using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Protocol;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace Aqua_Sharp_Backend.Services
 {
@@ -73,6 +80,39 @@ namespace Aqua_Sharp_Backend.Services
         {
             throw new NotImplementedException();
         }
+        public async Task Update(int id, JsonPatchDocument<EditAquariumViewModel> deviceModel)
+        {
+            var deviceToUpdate = await _context.Devices.Include(d => d.Aquarium).FirstOrDefaultAsync(d => d.DeviceId == id);
+
+            if (deviceToUpdate != null)
+            {
+                var invalidProperties = deviceModel.Operations
+                    .Select(o => o.path)
+                    .Where(p => !IsValidProperty(p, typeof(EditAquariumViewModel)))
+                    .ToList();
+
+                if (invalidProperties.Any())
+                {
+                    throw new BadRequest400Exception($"Cannot modify properties: {string.Join(", ", invalidProperties)}!");
+
+                }
+                var editAquariumViewModel = _mapper.Map<EditAquariumViewModel>(deviceToUpdate.Aquarium);
+                deviceModel.ApplyTo(editAquariumViewModel);
+                _mapper.Map(editAquariumViewModel, deviceToUpdate.Aquarium);
+
+                deviceToUpdate.MeasurementFrequency = editAquariumViewModel.MeasurementFrequency; 
+
+
+                await _context.SaveChangesAsync();
+            }
+
+     
+    }
+        private bool IsValidProperty(string path, Type type)
+        {
+            var property = type.GetProperty(path, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+            return property != null;
+        }
 
         public async Task<bool> CheckIfDeviceExistsAsync(int id)
         {
@@ -118,7 +158,7 @@ namespace Aqua_Sharp_Backend.Services
         //        .WithPayload(JsonSerializer.Serialize(value))
         //        .Build();
         //    await _client.PublishAsync(message);
-            
+
         //}
-}
+    }
 }
