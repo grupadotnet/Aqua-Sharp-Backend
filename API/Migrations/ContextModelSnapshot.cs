@@ -109,6 +109,10 @@ namespace Aqua_Sharp_Backend.Migrations
                     b.Property<int>("AquariumId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("AzureDeviceId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("ManualMode")
                         .HasColumnType("boolean");
 
