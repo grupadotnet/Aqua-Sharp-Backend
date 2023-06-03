@@ -79,6 +79,7 @@ namespace Aqua_Sharp_Backend.Services
                 .Where(e => e.AquariumId == viewModel.AquariumId)
                 .Skip(viewModel.StartFrom-1)
                 .Take(PageSize)
+                .OrderDescending()
                 .ToListAsync();
 
             return res;
