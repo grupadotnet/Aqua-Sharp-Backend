@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Aqua_Sharp_Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class jwt2 : Migration
+    public partial class _03061 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -56,6 +56,7 @@ namespace Aqua_Sharp_Backend.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Time = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Temperature = table.Column<float>(type: "real", nullable: false),
+                    Ph = table.Column<float>(type: "real", nullable: false),
                     TDS = table.Column<long>(type: "bigint", nullable: false),
                     LightOn = table.Column<bool>(type: "boolean", nullable: false),
                     AquariumId = table.Column<int>(type: "integer", nullable: false)
@@ -73,6 +74,7 @@ namespace Aqua_Sharp_Backend.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     MeasurementFrequency = table.Column<long>(type: "bigint", nullable: false),
                     ManualMode = table.Column<bool>(type: "boolean", nullable: false),
+                    AzureDeviceId = table.Column<string>(type: "text", nullable: false),
                     AquariumId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>

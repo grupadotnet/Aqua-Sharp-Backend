@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Aqua_Sharp_Backend.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230428220454_jwt2")]
-    partial class jwt2
+    [Migration("20230603172904_0306.2")]
+    partial class _03062
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -112,6 +112,10 @@ namespace Aqua_Sharp_Backend.Migrations
                     b.Property<int>("AquariumId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("AzureDeviceName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("ManualMode")
                         .HasColumnType("boolean");
 
@@ -139,6 +143,9 @@ namespace Aqua_Sharp_Backend.Migrations
 
                     b.Property<bool>("LightOn")
                         .HasColumnType("boolean");
+
+                    b.Property<float>("Ph")
+                        .HasColumnType("real");
 
                     b.Property<long>("TDS")
                         .HasColumnType("bigint");
