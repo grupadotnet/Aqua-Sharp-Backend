@@ -5,25 +5,24 @@
 namespace Aqua_Sharp_Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class PhInMeasurement : Migration
+    public partial class _03062 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<float>(
-                name: "Ph",
-                table: "Measurements",
-                type: "real",
-                nullable: false,
-                defaultValue: 0f);
+            migrationBuilder.RenameColumn(
+                name: "AzureDeviceId",
+                table: "Devices",
+                newName: "AzureDeviceName");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Ph",
-                table: "Measurements");
+            migrationBuilder.RenameColumn(
+                name: "AzureDeviceName",
+                table: "Devices",
+                newName: "AzureDeviceId");
         }
     }
 }

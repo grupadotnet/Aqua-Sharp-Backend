@@ -10,5 +10,7 @@ namespace Models.ViewModels.Device
         
         public int AquariumId { get; set; }
         public AquariumViewModel Aquarium { get; set; }
+
+        public string AzureDeviceName { get; set; }
     }
 }

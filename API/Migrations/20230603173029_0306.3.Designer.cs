@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Aqua_Sharp_Backend.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230514180701_PhInMeasurement")]
-    partial class PhInMeasurement
+    [Migration("20230603173029_0306.3")]
+    partial class _03063
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -96,7 +96,7 @@ namespace Aqua_Sharp_Backend.Migrations
                             ConfigId = 1,
                             Answer = "",
                             FirstRun = true,
-                            Password = "password",
+                            Password = "AQAAAAIAAYagAAAAEL4Pun26YTba5pDt4Fc+EwYhVYl9wcF+0+5g7sNCk7O2f3gy1+4ByFs6HCs/sZXatQ==",
                             Question = ""
                         });
                 });
@@ -111,6 +111,9 @@ namespace Aqua_Sharp_Backend.Migrations
 
                     b.Property<int>("AquariumId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("AzureDeviceName")
+                        .HasColumnType("text");
 
                     b.Property<bool>("ManualMode")
                         .HasColumnType("boolean");
