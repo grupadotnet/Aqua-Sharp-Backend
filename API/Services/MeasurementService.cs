@@ -59,7 +59,6 @@ namespace Aqua_Sharp_Backend.Services
                 .Where(e => e.AquariumId == paginationViewModel.AquariumId)
                 .Skip(skip)
                 .Take(PageSize)
-                .OrderByDescending(e => e.MeasurementId)
                 .ToListAsync();
 
             return res;
@@ -76,8 +75,7 @@ namespace Aqua_Sharp_Backend.Services
             await this._aquariumService.Get(viewModel.AquariumId);
             
             var res = await _context.Measurements
-                .Where(e => e.AquariumId == viewModel.AquariumId)
-                .Skip(viewModel.StartFrom-1)
+                .Where(e => e.AquariumId == viewModel.AquariumId && e.MeasurementId >= viewModel.StartFrom - 1)
                 .Take(PageSize)
                 .ToListAsync();
 
