@@ -24,7 +24,7 @@ public sealed class MqttClientService: BackgroundService
         _clientOptions = new MqttClientOptionsBuilder()
             .WithClientId("Backend")
             .WithTcpServer(configuration.GetValue<string>("Mqtt:Address"))
-            .WithCredentials("mqtt-aquasharp-westeu-dev-001.azure-devices.net/Backend", "ipANrXkE+GV2Ts7nNh9Fh9X7g8ZNUqWXRul+jb1am64=")
+            .WithCredentials("", "")
             .WithTls(new MqttClientOptionsBuilderTlsParameters
             {
                 UseTls = true,

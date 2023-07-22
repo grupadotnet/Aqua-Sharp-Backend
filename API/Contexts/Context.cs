@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Aqua_Sharp_Backend.Comparers;
+using Aqua_Sharp_Backend.Converters;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace Aqua_Sharp_Backend.Contexts
@@ -44,10 +46,17 @@ namespace Aqua_Sharp_Backend.Contexts
 
         private static void CreateAquarium(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Aquarium>()
-                .HasOne<Device>(a => a.Device)
+            modelBuilder.Entity<Aquarium>(builder =>
+            {
+                builder.Property(x => x.Dawn)
+                    .HasConversion<TimeOnlyConverter, TimeOnlyComparer>();
+                builder.Property(x => x.Sunset)
+                    .HasConversion<TimeOnlyConverter, TimeOnlyComparer>();
+            });
+            modelBuilder.Entity<Aquarium>().HasOne(a => a.Device)
                 .WithOne(d => d.Aquarium)
                 .HasForeignKey<Device>(d => d.AquariumId);
+
         }
         
         private static void CreateDevices(ModelBuilder modelBuilder)

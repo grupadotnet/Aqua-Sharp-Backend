@@ -3,38 +3,38 @@ using System;
 using Aqua_Sharp_Backend.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace Aqua_Sharp_Backend.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230603173029_0306.3")]
-    partial class _03063
+    [Migration("20230722185034_SwapDB")]
+    partial class SwapDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.3")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Models.Entities.Aquarium", b =>
                 {
                     b.Property<int>("AquariumId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AquariumId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AquariumId"));
 
-                    b.Property<TimeOnly>("Dawn")
-                        .HasColumnType("time without time zone");
+                    b.Property<TimeSpan>("Dawn")
+                        .HasColumnType("time");
 
                     b.Property<long>("Height")
                         .HasColumnType("bigint");
@@ -44,13 +44,13 @@ namespace Aqua_Sharp_Backend.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("PH")
                         .HasColumnType("real");
 
-                    b.Property<TimeOnly>("Sunset")
-                        .HasColumnType("time without time zone");
+                    b.Property<TimeSpan>("Sunset")
+                        .HasColumnType("time");
 
                     b.Property<float>("Temperature")
                         .HasColumnType("real");
@@ -67,24 +67,24 @@ namespace Aqua_Sharp_Backend.Migrations
                 {
                     b.Property<int>("ConfigId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ConfigId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ConfigId"));
 
                     b.Property<string>("Answer")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("FirstRun")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Question")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ConfigId");
 
@@ -105,18 +105,18 @@ namespace Aqua_Sharp_Backend.Migrations
                 {
                     b.Property<int>("DeviceId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DeviceId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DeviceId"));
 
                     b.Property<int>("AquariumId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("AzureDeviceName")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("ManualMode")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.Property<long>("MeasurementFrequency")
                         .HasColumnType("bigint");
@@ -133,15 +133,15 @@ namespace Aqua_Sharp_Backend.Migrations
                 {
                     b.Property<int>("MeasurementId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("MeasurementId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MeasurementId"));
 
                     b.Property<int>("AquariumId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<bool>("LightOn")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.Property<float>("Ph")
                         .HasColumnType("real");
@@ -153,7 +153,7 @@ namespace Aqua_Sharp_Backend.Migrations
                         .HasColumnType("real");
 
                     b.Property<DateTime>("Time")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("MeasurementId");
 
