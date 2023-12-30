@@ -15,5 +15,7 @@ namespace Models.Entities
         public int AuthId { get; set; }
 
         public Auth Auth { get; set; }
+
+        public ICollection<Aquarium> Aquariums { get; set; }
     }
 }

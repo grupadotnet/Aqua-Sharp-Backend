@@ -19,5 +19,10 @@ namespace Models.Entities
         public TimeOnly Sunset { get; set; }
 
         public Device Device { get; set; }
+
+        public User User { get; set; }
+
+        public int UserId { get; set; }
+
     }
 }
