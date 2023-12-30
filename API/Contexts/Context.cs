@@ -10,7 +10,7 @@ namespace Aqua_Sharp_Backend.Contexts
         #region Entities
         
         public DbSet<Aquarium> Aquarium { get; set; }
-        public DbSet<Config> Config { get; set; }
+        public DbSet<Auth> Config { get; set; }
         public DbSet<Device> Devices { get; set; }
         public DbSet<Measurement> Measurements{ get; set; }
 
@@ -33,10 +33,10 @@ namespace Aqua_Sharp_Backend.Contexts
 
         private static void CreateConfig(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Config>()
-                .HasData(new Config
+            modelBuilder.Entity<Auth>()
+                .HasData(new Auth
                 {
-                    ConfigId = 1,
+                    AuthId = 1,
                     Password = "AQAAAAIAAYagAAAAEL4Pun26YTba5pDt4Fc+EwYhVYl9wcF+0+5g7sNCk7O2f3gy1+4ByFs6HCs/sZXatQ==",
                     FirstRun = true,
                     Question = "",

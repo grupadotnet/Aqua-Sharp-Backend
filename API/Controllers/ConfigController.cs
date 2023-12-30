@@ -9,9 +9,9 @@ namespace Aqua_Sharp_Backend.Controllers
     [ApiController]
     public class ConfigController : ControllerBase
     {
-        private readonly IConfigService _configService;
+        private readonly IAuthService _configService;
 
-        public ConfigController(IConfigService configService)
+        public ConfigController(IAuthService configService)
         {
             _configService = configService; 
         }

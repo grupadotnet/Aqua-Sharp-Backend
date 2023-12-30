@@ -89,7 +89,7 @@ namespace Aqua_Sharp_Backend.Migrations
 
             migrationBuilder.InsertData(
                 table: "Config",
-                columns: new[] { "ConfigId", "Answer", "FirstRun", "Password", "Question" },
+                columns: new[] { "AuthId", "Answer", "FirstRun", "Password", "Question" },
                 values: new object[] { 1, "", true, "AQAAAAIAAYagAAAAEL4Pun26YTba5pDt4Fc+EwYhVYl9wcF+0+5g7sNCk7O2f3gy1+4ByFs6HCs/sZXatQ==", "" });
 
             migrationBuilder.CreateIndex(

@@ -62,11 +62,11 @@ namespace Aqua_Sharp_Backend.Migrations
 
             modelBuilder.Entity("Models.Entities.Config", b =>
                 {
-                    b.Property<int>("ConfigId")
+                    b.Property<int>("AuthId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ConfigId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AuthId"));
 
                     b.Property<string>("Answer")
                         .IsRequired()
@@ -83,7 +83,7 @@ namespace Aqua_Sharp_Backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ConfigId");
+                    b.HasKey("AuthId");
 
                     b.ToTable("Config");
 

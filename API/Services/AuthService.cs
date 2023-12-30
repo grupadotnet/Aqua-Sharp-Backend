@@ -10,9 +10,9 @@ using Models.ViewModels.Config;
 
 namespace Aqua_Sharp_Backend.Services
 {
-    public class ConfigService : IConfigService
+    public class AuthService : IAuthService
     {
-        private readonly IPasswordHasher<Config> _passwordHasher;
+        private readonly IPasswordHasher<Auth> _passwordHasher;
         private readonly Context _context;
         private readonly AuthenticationSettings _authenticationSettings;
         public Task ChangePassword()
@@ -32,7 +32,7 @@ namespace Aqua_Sharp_Backend.Services
         }
 
         
-        public ConfigService(Context context, IPasswordHasher<Config> passwordHasher, AuthenticationSettings authenticationSettings)
+        public AuthService(Context context, IPasswordHasher<Auth> passwordHasher, AuthenticationSettings authenticationSettings)
         {
             _context = context;
             _passwordHasher = passwordHasher;
@@ -42,7 +42,7 @@ namespace Aqua_Sharp_Backend.Services
 
         public string GenerateJwt(LoginViewModel vm)
         {
-            var config = _context.Config.FirstOrDefault(u => u.ConfigId == 1);
+            var config = _context.Config.FirstOrDefault(u => u.AuthId == 1);
             var aquariums = _context.Aquarium.ToList();
             var devices = _context.Devices.ToList();
 
@@ -58,7 +58,7 @@ namespace Aqua_Sharp_Backend.Services
             var claims = new List<Claim>()
                 {
                 
-                new Claim(ClaimTypes.NameIdentifier, config.ConfigId.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, config.AuthId.ToString()),
                 
             };
 
