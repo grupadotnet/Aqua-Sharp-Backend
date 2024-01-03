@@ -52,15 +52,20 @@ namespace Aqua_Sharp_Backend.Migrations
                     b.Property<float>("Temperature")
                         .HasColumnType("real");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<long>("Width")
                         .HasColumnType("bigint");
 
                     b.HasKey("AquariumId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Aquarium");
                 });
 
-            modelBuilder.Entity("Models.Entities.Config", b =>
+            modelBuilder.Entity("Models.Entities.Auth", b =>
                 {
                     b.Property<int>("AuthId")
                         .ValueGeneratedOnAdd()
@@ -85,12 +90,12 @@ namespace Aqua_Sharp_Backend.Migrations
 
                     b.HasKey("AuthId");
 
-                    b.ToTable("Config");
+                    b.ToTable("Auth");
 
                     b.HasData(
                         new
                         {
-                            ConfigId = 1,
+                            AuthId = 1,
                             Answer = "",
                             FirstRun = true,
                             Password = "AQAAAAIAAYagAAAAEL4Pun26YTba5pDt4Fc+EwYhVYl9wcF+0+5g7sNCk7O2f3gy1+4ByFs6HCs/sZXatQ==",
@@ -157,6 +162,88 @@ namespace Aqua_Sharp_Backend.Migrations
                     b.ToTable("Measurements");
                 });
 
+            modelBuilder.Entity("Models.Entities.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "all"
+                        });
+                });
+
+            modelBuilder.Entity("Models.Entities.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+
+                    b.Property<int>("AuthId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Login")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("AuthId")
+                        .IsUnique();
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            AuthId = 1,
+                            FirstName = "Admin",
+                            LastName = "Admin",
+                            Login = "Admin",
+                            RoleId = 1
+                        });
+                });
+
+            modelBuilder.Entity("Models.Entities.Aquarium", b =>
+                {
+                    b.HasOne("Models.Entities.User", "User")
+                        .WithMany("Aquariums")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Models.Entities.Device", b =>
                 {
                     b.HasOne("Models.Entities.Aquarium", "Aquarium")
@@ -168,10 +255,40 @@ namespace Aqua_Sharp_Backend.Migrations
                     b.Navigation("Aquarium");
                 });
 
+            modelBuilder.Entity("Models.Entities.User", b =>
+                {
+                    b.HasOne("Models.Entities.Auth", "Auth")
+                        .WithOne("User")
+                        .HasForeignKey("Models.Entities.User", "AuthId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Models.Entities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Auth");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("Models.Entities.Aquarium", b =>
                 {
                     b.Navigation("Device")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Models.Entities.Auth", b =>
+                {
+                    b.Navigation("User")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Models.Entities.User", b =>
+                {
+                    b.Navigation("Aquariums");
                 });
 #pragma warning restore 612, 618
         }

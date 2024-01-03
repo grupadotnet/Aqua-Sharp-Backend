@@ -10,9 +10,11 @@ namespace Aqua_Sharp_Backend.Contexts
         #region Entities
         
         public DbSet<Aquarium> Aquarium { get; set; }
-        public DbSet<Auth> Config { get; set; }
+        public DbSet<Auth> Auth { get; set; }
         public DbSet<Device> Devices { get; set; }
         public DbSet<Measurement> Measurements{ get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         #endregion
         
@@ -41,7 +43,28 @@ namespace Aqua_Sharp_Backend.Contexts
                     FirstRun = true,
                     Question = "",
                     Answer = ""
+
                 });
+
+            modelBuilder.Entity<Role>()
+                .HasData(new Role
+                {
+                    Id= 1,
+                    Name = "all"
+
+                });
+
+            modelBuilder.Entity<User>()
+                .HasData(new User
+                {
+                    UserId = 1,
+                    Login = "Admin",
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    AuthId = 1,
+                    RoleId = 1
+
+                }) ;
         }
 
         private static void CreateAquarium(ModelBuilder modelBuilder)

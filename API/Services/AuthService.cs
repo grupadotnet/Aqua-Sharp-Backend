@@ -42,7 +42,9 @@ namespace Aqua_Sharp_Backend.Services
 
         public string GenerateJwt(LoginViewModel vm)
         {
-            var config = _context.Config.FirstOrDefault(u => u.AuthId == 1);
+            var user = _context.Users.FirstOrDefault(u=>u.Login == vm.Login);
+            if(user == null) { throw new BadHttpRequestException("Invalid login or password"); }
+            var config = _context.Auth.FirstOrDefault(u => u.AuthId == user.AuthId);
             var aquariums = _context.Aquarium.ToList();
             var devices = _context.Devices.ToList();
 
