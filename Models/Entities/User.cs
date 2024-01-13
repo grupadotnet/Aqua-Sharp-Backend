@@ -17,7 +17,7 @@ namespace Models.Entities
         public int RoleId { get; set; }
 
         public Auth Auth { get; set; }
-        public virtual Role Role { get; set; }
+        public Role Role { get; set; }
 
         public ICollection<Aquarium> Aquariums { get; set; }
     }

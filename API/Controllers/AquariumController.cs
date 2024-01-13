@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models.ViewModels.Aquarium;
 
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Aqua_Sharp_Backend.Controllers
 {
@@ -21,7 +22,8 @@ namespace Aqua_Sharp_Backend.Controllers
         }
         
         [HttpGet]
-        [Authorize(Roles ="al")]
+        
+
         public async Task<IActionResult> GetAll()
         {
             var aquariumList = await _aquariumService.GetAll();
@@ -44,7 +46,7 @@ namespace Aqua_Sharp_Backend.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            await _aquariumService.Delete(id);
+            await _aquariumService.Delete(id,User);
             
             return NoContent();
         }

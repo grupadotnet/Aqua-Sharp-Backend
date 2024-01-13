@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Aqua_Sharp_Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class migII : Migration
+    public partial class migIII : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

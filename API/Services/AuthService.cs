@@ -48,7 +48,7 @@ namespace Aqua_Sharp_Backend.Services
             var aquariums = _context.Aquarium.ToList();
             var devices = _context.Devices.ToList();
 
-
+            var Role = _context.Roles.FirstOrDefault(r=>r.Id==user.RoleId);
 
             var result = _passwordHasher.VerifyHashedPassword(config, config.Password, vm.Password);
             if (result == PasswordVerificationResult.Failed)
@@ -60,8 +60,13 @@ namespace Aqua_Sharp_Backend.Services
             var claims = new List<Claim>()
                 {
                 
-                new Claim(ClaimTypes.NameIdentifier, config.AuthId.ToString()),
-                
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                new Claim("Login", $"{user.Login}"),
+                new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+                new Claim(ClaimTypes.Role, Role.Name.ToString()),
+
+
+
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey));
