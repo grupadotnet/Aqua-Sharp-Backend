@@ -5,10 +5,7 @@ namespace Aqua_Sharp_Backend.Authorization
     public enum ResourceOperation
     { 
         Create,Read,Update,Delete
-    
     }
-
-
     public class ResourceOperationRequirement:IAuthorizationRequirement
     {
         public ResourceOperationRequirement(ResourceOperation resourceOperation)
@@ -17,10 +14,6 @@ namespace Aqua_Sharp_Backend.Authorization
         }
 
         public ResourceOperation ResourceOperation { get; }
-
-        
-      
-
 
     }
 }
