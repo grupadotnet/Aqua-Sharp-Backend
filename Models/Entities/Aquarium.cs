@@ -17,7 +17,11 @@ namespace Models.Entities
         public float PH { get; set; }
         public TimeOnly Dawn { get; set; }
         public TimeOnly Sunset { get; set; }
-
+        public int UserId { get; set; }
         public Device Device { get; set; }
+        public User User { get; set; }
+
+        
+
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace Aqua_Sharp_Backend.Interfaces
 {
     using Models.ViewModels.Config;
-    public interface IConfigService
+    public interface IAuthService
     {
         Task Configure();
         Task ChangePassword();

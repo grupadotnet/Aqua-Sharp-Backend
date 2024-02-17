@@ -51,40 +51,76 @@ namespace Aqua_Sharp_Backend.Seeder
                         AquariumId = 1,
                         MeasurementFrequency = 5,
                         ManualMode = false
-                    }
+                    },
+                    UserId = 1
+
                 };
-                    
+
                 var aquarium2 = new Aquarium()
                 {
                     Name = "Aquarium2",
-                    Length = 87,
-                    Width = 56,
-                    Height = 34,
-                    Temperature = 19,
-                    PH = 6,
-                    Dawn = new TimeOnly(6, 20),
-                    Sunset = new TimeOnly(21, 30),
+                    Length = 45,
+                    Width = 32,
+                    Height = 35,
+                    Temperature = 18,
+                    PH = 7,
+                    Dawn = new TimeOnly(6, 15),
+                    Sunset = new TimeOnly(20, 30),
                     Device = new Device()
                     {
                         AquariumId = 2,
-                        MeasurementFrequency = 2,
+                        MeasurementFrequency = 5,
                         ManualMode = false
-                    }
+                    },
+                    UserId = 1
+
                 };
-                    
+
                 var aquarium3 = new Aquarium()
                 {
                     Name = "Aquarium3",
-                    Length = 100,
-                    Width = 60,
-                    Height = 44,
-                    Temperature = 22,
-                    PH = 6,
-                    Dawn = new TimeOnly(6, 20),
-                    Sunset = new TimeOnly(21, 30)
+                    Length = 45,
+                    Width = 32,
+                    Height = 35,
+                    Temperature = 18,
+                    PH = 7,
+                    Dawn = new TimeOnly(6, 15),
+                    Sunset = new TimeOnly(20, 30),
+                    Device = new Device()
+                    {
+                        AquariumId = 3,
+                        MeasurementFrequency = 5,
+                        ManualMode = false
+                    },
+                    UserId = 2
+
                 };
-                    
-                _dbContext.Aquarium.AddRange(aquarium1, aquarium2, aquarium3);
+
+                var aquarium4 = new Aquarium()
+                {
+                    Name = "Aquarium4",
+                    Length = 45,
+                    Width = 32,
+                    Height = 35,
+                    Temperature = 18,
+                    PH = 7,
+                    Dawn = new TimeOnly(6, 15),
+                    Sunset = new TimeOnly(20, 30),
+                    Device = new Device()
+                    {
+                        AquariumId = 4,
+                        MeasurementFrequency = 5,
+                        ManualMode = false
+                    },
+                    UserId = 2
+
+                };
+
+
+
+
+
+                _dbContext.Aquarium.AddRange(aquarium1,aquarium2,aquarium3,aquarium4);
                 _dbContext.SaveChanges();
             }
 
@@ -174,86 +210,7 @@ namespace Aqua_Sharp_Backend.Seeder
                         AquariumId = 1
                     },
                     
-                    new()
-                    {
-                        Time = new DateTime(2023, 3, 5, 15, 0, 0),
-                        Temperature = 19,
-                        TDS = 442,
-                        LightOn = false,
-                        AquariumId = 2
-                    },
-
-                    new Measurement()
-                    {
-                        Time = new DateTime(2023, 3, 5, 15, 5, 0),
-                        Temperature = 17,
-                        TDS = 440,
-                        LightOn = false,
-                        AquariumId = 2
-                    },
                     
-                    new()
-                    {
-                        Time = new DateTime(2023, 3, 5, 15, 10, 0),
-                        Temperature = 17,
-                        TDS = 450,
-                        LightOn = false,
-                        AquariumId = 2
-                    },
-                    
-                    new()
-                    {
-                        Time = new DateTime(2023, 3, 5, 15, 15, 0),
-                        Temperature = 18,
-                        TDS = 445,
-                        LightOn = false,
-                        AquariumId = 2
-                    },
-                    
-                    new()
-                    {
-                        Time = new DateTime(2023, 3, 5, 15, 20, 0),
-                        Temperature = 19,
-                        TDS = 440,
-                        LightOn = false,
-                        AquariumId = 2
-                    },
-                    
-                    new()
-                    {
-                        Time = new DateTime(2023, 3, 5, 15, 25, 0),
-                        Temperature = 17,
-                        TDS = 441,
-                        LightOn = false,
-                        AquariumId = 2
-                    },
-                    
-                    new()
-                    {
-                        Time = new DateTime(2023, 3, 5, 15, 30, 0),
-                        Temperature = 18,
-                        TDS = 445,
-                        LightOn = false,
-                        AquariumId = 2
-                    },
-                    
-                    new()
-                    {
-                        Time = new DateTime(2023, 3, 5, 15, 35, 0),
-                        Temperature = 18,
-                        TDS = 435,
-                        LightOn = false,
-                        AquariumId = 2
-                    },
-                    
-                    new()
-                    {
-                        Time = new DateTime(2023, 3, 5, 15, 40, 0),
-                        Temperature = 19,
-                        TDS = 430,
-                        LightOn = false,
-                        AquariumId = 2
-                    }
                 };
                 _dbContext.Measurements.AddRange(createdMeasurements);
                 _dbContext.SaveChanges();

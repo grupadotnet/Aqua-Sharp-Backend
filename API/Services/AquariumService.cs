@@ -1,7 +1,10 @@
 ﻿using System.Globalization;
+using System.Security.Claims;
+using Aqua_Sharp_Backend.Authorization;
 using Aqua_Sharp_Backend.Contexts;
 using Aqua_Sharp_Backend.Exceptions;
 using Aqua_Sharp_Backend.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Models.ViewModels.Aquarium;
 using Models.ViewModels.Device;
 
@@ -12,12 +15,14 @@ namespace Aqua_Sharp_Backend.Services
         private readonly Context _context;
         private readonly IMapper _mapper;
         private readonly IDeviceService _deviceService;
+        private readonly IAuthorizationService _authorizationService;
 
-        public AquariumService(Context context, IMapper mapper, IDeviceService deviceService)
+        public AquariumService(Context context, IMapper mapper, IDeviceService deviceService,IAuthorizationService authorizationService)
         {
             _context = context;
             _mapper = mapper;
             _deviceService = deviceService;
+            _authorizationService = authorizationService;
         }
         
         public async Task<Aquarium> Add(CreateAquariumViewModel createAquariumViewModel)
@@ -39,13 +44,23 @@ namespace Aqua_Sharp_Backend.Services
             return addedAquariumWithDevice;
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(int id,ClaimsPrincipal user)
         {
+
+            
             var aquarium = await _context
                 .Aquarium
                 .AsNoTracking()
                 .FirstOrDefaultAsync(a => a.AquariumId == id);
-            
+
+            var authorizationResult = _authorizationService.AuthorizeAsync(user, aquarium, new ResourceOperationRequirement(ResourceOperation.Delete)).Result;
+
+            if (!authorizationResult.Succeeded) {
+
+                 throw new Forbidden403Exception("403 Forbidden");
+
+            }
+
             _context.Remove(aquarium);
             await _context.SaveChangesAsync();
         }

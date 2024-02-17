@@ -10,6 +10,7 @@ namespace Models.ViewModels.Config
     
         public class LoginViewModel
         {
+            public string Login { get; set; }
             public string Password { get; set; }
         }
     

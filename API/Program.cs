@@ -11,6 +11,8 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using NLog.Web;
+using Microsoft.AspNetCore.Authorization;
+using Aqua_Sharp_Backend.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,7 +43,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<AquariumSeeder>();
-builder.Services.AddScoped<IPasswordHasher<Config>, PasswordHasher<Config>>();
+builder.Services.AddScoped<IPasswordHasher<Auth>, PasswordHasher<Auth>>();
+builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -59,7 +62,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
 builder.Services.AddScoped<IAquariumService, AquariumService>();
-builder.Services.AddScoped<IConfigService, ConfigService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IMeasurementService, MeasurementService>();
 builder.Services.AddCors();

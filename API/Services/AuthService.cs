@@ -10,9 +10,9 @@ using Models.ViewModels.Config;
 
 namespace Aqua_Sharp_Backend.Services
 {
-    public class ConfigService : IConfigService
+    public class AuthService : IAuthService
     {
-        private readonly IPasswordHasher<Config> _passwordHasher;
+        private readonly IPasswordHasher<Auth> _passwordHasher;
         private readonly Context _context;
         private readonly AuthenticationSettings _authenticationSettings;
         public Task ChangePassword()
@@ -32,7 +32,7 @@ namespace Aqua_Sharp_Backend.Services
         }
 
         
-        public ConfigService(Context context, IPasswordHasher<Config> passwordHasher, AuthenticationSettings authenticationSettings)
+        public AuthService(Context context, IPasswordHasher<Auth> passwordHasher, AuthenticationSettings authenticationSettings)
         {
             _context = context;
             _passwordHasher = passwordHasher;
@@ -42,11 +42,13 @@ namespace Aqua_Sharp_Backend.Services
 
         public string GenerateJwt(LoginViewModel vm)
         {
-            var config = _context.Config.FirstOrDefault(u => u.ConfigId == 1);
+            var user = _context.Users.FirstOrDefault(u=>u.Login == vm.Login);
+            if(user == null) { throw new BadHttpRequestException("Invalid login or password"); }
+            var config = _context.Auth.FirstOrDefault(u => u.AuthId == user.AuthId);
             var aquariums = _context.Aquarium.ToList();
             var devices = _context.Devices.ToList();
 
-
+            var Role = _context.Roles.FirstOrDefault(r=>r.Id==user.RoleId);
 
             var result = _passwordHasher.VerifyHashedPassword(config, config.Password, vm.Password);
             if (result == PasswordVerificationResult.Failed)
@@ -58,8 +60,13 @@ namespace Aqua_Sharp_Backend.Services
             var claims = new List<Claim>()
                 {
                 
-                new Claim(ClaimTypes.NameIdentifier, config.ConfigId.ToString()),
-                
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                new Claim("Login", $"{user.Login}"),
+                new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+                new Claim(ClaimTypes.Role, ((int)Role.Name).ToString()),
+
+
+
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey));

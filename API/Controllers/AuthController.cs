@@ -7,11 +7,11 @@ namespace Aqua_Sharp_Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ConfigController : ControllerBase
+    public class AuthController : ControllerBase
     {
-        private readonly IConfigService _configService;
+        private readonly IAuthService _configService;
 
-        public ConfigController(IConfigService configService)
+        public AuthController(IAuthService configService)
         {
             _configService = configService; 
         }
