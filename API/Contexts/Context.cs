@@ -1,5 +1,7 @@
-﻿using Aqua_Sharp_Backend.Comparers;
+﻿using Aqua_Sharp_Backend.Authorization;
+using Aqua_Sharp_Backend.Comparers;
 using Aqua_Sharp_Backend.Converters;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -35,22 +37,28 @@ namespace Aqua_Sharp_Backend.Contexts
 
         private static void CreateConfig(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Auth>()
-                .HasData(new Auth
-                {
-                    AuthId = 1,
-                    Password = "AQAAAAIAAYagAAAAEL4Pun26YTba5pDt4Fc+EwYhVYl9wcF+0+5g7sNCk7O2f3gy1+4ByFs6HCs/sZXatQ==",
-                    FirstRun = true,
-                    Question = "",
-                    Answer = ""
+            var Adm = new Auth
+            {
+                AuthId = 1,
+                FirstRun = true,
+                Question = "",
+                Answer = ""
+            };
 
-                });
+            var admConfig = AdminConfig.Configuration.GetSection("Authentication:AdminPassword").Value;
+            Adm.Password = new PasswordHasher<Auth>().HashPassword(Adm, admConfig);
+
+
+
+            modelBuilder.Entity<Auth>()
+                .HasData(Adm);
+
 
             modelBuilder.Entity<Role>()
                 .HasData(new Role
                 {
-                    Id= 1,
-                    Name = "all"
+                    Id = 1,
+                    Name = RoleName.All
 
                 });
 
@@ -65,6 +73,49 @@ namespace Aqua_Sharp_Backend.Contexts
                     RoleId = 1
 
                 }) ;
+
+
+
+            var Usr = new Auth
+            {
+                AuthId = 2,
+                FirstRun = true,
+                Question = "",
+                Answer = ""
+            };
+
+            var usrConfig = AdminConfig.Configuration.GetSection("Authentication:UserPassword").Value;
+            Usr.Password = new PasswordHasher<Auth>().HashPassword(Usr, usrConfig);
+
+
+
+            modelBuilder.Entity<Auth>()
+                .HasData(Usr);
+
+
+            modelBuilder.Entity<Role>()
+                .HasData(new Role
+                {
+                    Id = 2,
+                    Name = RoleName.Own
+
+                });
+
+            modelBuilder.Entity<User>()
+                .HasData(new User
+                {
+                    UserId = 2,
+                    Login = "User",
+                    FirstName = "Jan",
+                    LastName = "Kowalski",
+                    AuthId = 2,
+                    RoleId = 2
+
+                });
+
+
+
+
         }
 
         private static void CreateAquarium(ModelBuilder modelBuilder)

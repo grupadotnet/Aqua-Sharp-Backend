@@ -55,12 +55,72 @@ namespace Aqua_Sharp_Backend.Seeder
                     UserId = 1
 
                 };
-                    
-                
-                    
-                
-                    
-                _dbContext.Aquarium.AddRange(aquarium1);
+
+                var aquarium2 = new Aquarium()
+                {
+                    Name = "Aquarium2",
+                    Length = 45,
+                    Width = 32,
+                    Height = 35,
+                    Temperature = 18,
+                    PH = 7,
+                    Dawn = new TimeOnly(6, 15),
+                    Sunset = new TimeOnly(20, 30),
+                    Device = new Device()
+                    {
+                        AquariumId = 2,
+                        MeasurementFrequency = 5,
+                        ManualMode = false
+                    },
+                    UserId = 1
+
+                };
+
+                var aquarium3 = new Aquarium()
+                {
+                    Name = "Aquarium3",
+                    Length = 45,
+                    Width = 32,
+                    Height = 35,
+                    Temperature = 18,
+                    PH = 7,
+                    Dawn = new TimeOnly(6, 15),
+                    Sunset = new TimeOnly(20, 30),
+                    Device = new Device()
+                    {
+                        AquariumId = 3,
+                        MeasurementFrequency = 5,
+                        ManualMode = false
+                    },
+                    UserId = 2
+
+                };
+
+                var aquarium4 = new Aquarium()
+                {
+                    Name = "Aquarium4",
+                    Length = 45,
+                    Width = 32,
+                    Height = 35,
+                    Temperature = 18,
+                    PH = 7,
+                    Dawn = new TimeOnly(6, 15),
+                    Sunset = new TimeOnly(20, 30),
+                    Device = new Device()
+                    {
+                        AquariumId = 4,
+                        MeasurementFrequency = 5,
+                        ManualMode = false
+                    },
+                    UserId = 2
+
+                };
+
+
+
+
+
+                _dbContext.Aquarium.AddRange(aquarium1,aquarium2,aquarium3,aquarium4);
                 _dbContext.SaveChanges();
             }
 

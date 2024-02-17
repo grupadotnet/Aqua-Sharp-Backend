@@ -12,11 +12,11 @@ namespace Aqua_Sharp_Backend.Authorization
             var userId = context.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
             
-            if(userRole == "own" && aquarium.UserId == int.Parse(userId))
+            if(userRole == ((int)RoleName.Own).ToString() && aquarium.UserId == int.Parse(userId))
             {
                 context.Succeed(requirement);
             }
-            if(userRole =="all")
+            if(userRole ==((int)RoleName.All).ToString())
             {
                 context.Succeed(requirement);
             }

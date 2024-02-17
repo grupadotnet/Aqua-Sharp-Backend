@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace Models.Entities
 {
+    public enum RoleName
+    { 
+      Own=1,
+      All=8
+    }
     public class Role
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public RoleName Name { get; set; }
     }
 }

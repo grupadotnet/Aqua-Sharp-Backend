@@ -22,8 +22,6 @@ namespace Aqua_Sharp_Backend.Controllers
         }
         
         [HttpGet]
-        
-
         public async Task<IActionResult> GetAll()
         {
             var aquariumList = await _aquariumService.GetAll();

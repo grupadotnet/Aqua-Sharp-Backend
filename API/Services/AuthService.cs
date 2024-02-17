@@ -63,7 +63,7 @@ namespace Aqua_Sharp_Backend.Services
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim("Login", $"{user.Login}"),
                 new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
-                new Claim(ClaimTypes.Role, Role.Name.ToString()),
+                new Claim(ClaimTypes.Role, ((int)Role.Name).ToString()),
 
 
 
