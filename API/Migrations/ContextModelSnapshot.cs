@@ -98,7 +98,15 @@ namespace Aqua_Sharp_Backend.Migrations
                             AuthId = 1,
                             Answer = "",
                             FirstRun = true,
-                            Password = "AQAAAAIAAYagAAAAEL4Pun26YTba5pDt4Fc+EwYhVYl9wcF+0+5g7sNCk7O2f3gy1+4ByFs6HCs/sZXatQ==",
+                            Password = "AQAAAAIAAYagAAAAEHhMmcrg/puWjOu5Of4gsKzRyUgXYrHotOFG4jOQ5gbRWXHvtAolzFANDxbdGHcGBg==",
+                            Question = ""
+                        },
+                        new
+                        {
+                            AuthId = 2,
+                            Answer = "",
+                            FirstRun = true,
+                            Password = "AQAAAAIAAYagAAAAEDxOsHt+ZcOH7vmP4rweq8qBNBNBOxG5wAOG2A5VWjbkooEJdy6LwlGlOrGwSwTqVA==",
                             Question = ""
                         });
                 });
@@ -170,9 +178,8 @@ namespace Aqua_Sharp_Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Name")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -182,7 +189,12 @@ namespace Aqua_Sharp_Backend.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "all"
+                            Name = 8
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = 1
                         });
                 });
 
@@ -230,6 +242,15 @@ namespace Aqua_Sharp_Backend.Migrations
                             LastName = "Admin",
                             Login = "Admin",
                             RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            AuthId = 2,
+                            FirstName = "Jan",
+                            LastName = "Kowalski",
+                            Login = "User",
+                            RoleId = 2
                         });
                 });
 

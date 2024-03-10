@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Aqua_Sharp_Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class migIII : Migration
+    public partial class mqttStart : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,7 +53,7 @@ namespace Aqua_Sharp_Backend.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -139,17 +141,29 @@ namespace Aqua_Sharp_Backend.Migrations
             migrationBuilder.InsertData(
                 table: "Auth",
                 columns: new[] { "AuthId", "Answer", "FirstRun", "Password", "Question" },
-                values: new object[] { 1, "", true, "AQAAAAIAAYagAAAAEL4Pun26YTba5pDt4Fc+EwYhVYl9wcF+0+5g7sNCk7O2f3gy1+4ByFs6HCs/sZXatQ==", "" });
+                values: new object[,]
+                {
+                    { 1, "", true, "AQAAAAIAAYagAAAAEHhMmcrg/puWjOu5Of4gsKzRyUgXYrHotOFG4jOQ5gbRWXHvtAolzFANDxbdGHcGBg==", "" },
+                    { 2, "", true, "AQAAAAIAAYagAAAAEDxOsHt+ZcOH7vmP4rweq8qBNBNBOxG5wAOG2A5VWjbkooEJdy6LwlGlOrGwSwTqVA==", "" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { 1, "all" });
+                values: new object[,]
+                {
+                    { 1, 8 },
+                    { 2, 1 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "AuthId", "FirstName", "LastName", "Login", "RoleId" },
-                values: new object[] { 1, 1, "Admin", "Admin", "Admin", 1 });
+                values: new object[,]
+                {
+                    { 1, 1, "Admin", "Admin", "Admin", 1 },
+                    { 2, 2, "Jan", "Kowalski", "User", 2 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Aquarium_UserId",
