@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Identity;
 using Aqua_Sharp_Backend;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using NLog.Web;
 using Microsoft.AspNetCore.Authorization;
 using Aqua_Sharp_Backend.Authorization;
@@ -17,7 +15,6 @@ using Aqua_Sharp_Backend.Authorization;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var authenticationSettings = new AuthenticationSettings();
 builder.Services.AddSingleton(authenticationSettings);
 builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
@@ -65,9 +62,10 @@ builder.Services.AddScoped<IAquariumService, AquariumService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IMeasurementService, MeasurementService>();
-builder.Services.AddCors();
+builder.Services.AddSingleton<IMqqtClientService, MqqtService>();
+builder.Services.AddHostedService<MeasurementMqttClientService>();
 
-//builder.Services.AddHostedService<MqttClientService>();
+builder.Services.AddCors();
 #endregion
 
 // Setup NLog for Dependency injection
