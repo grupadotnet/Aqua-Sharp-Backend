@@ -42,7 +42,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<AquariumSeeder>();
 builder.Services.AddScoped<IPasswordHasher<Auth>, PasswordHasher<Auth>>();
-builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
+builder.Services.AddScoped<IAuthorizationHandler, AquariumResourceOperationRequirementHandler>();
 builder.Services.AddScoped<IUserContextService, UserContextService>();
 builder.Services.AddHttpContextAccessor();
 
