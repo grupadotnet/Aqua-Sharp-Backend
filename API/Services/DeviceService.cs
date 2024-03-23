@@ -15,6 +15,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 using Models.DTO.MQTT;
 using Boolean = System.Boolean;
+using Microsoft.AspNetCore.Authorization;
+using Aqua_Sharp_Backend.Authorization;
+using Models.Entities;
 
 namespace Aqua_Sharp_Backend.Services
 {
@@ -23,12 +26,16 @@ namespace Aqua_Sharp_Backend.Services
         private readonly Context _context;
         private readonly IMapper _mapper;
         private readonly IMqqtClientService _mqqtClient;
+        private readonly IAuthorizationService _authorizationService;
+        private readonly IUserContextService _userContextService;
 
-        public DeviceService(Context context, IMapper mapper, IMqqtClientService mqqtClient)
+        public DeviceService(Context context, IMapper mapper, IMqqtClientService mqqtClient, IAuthorizationService authorizationService, IUserContextService userContextService)
         {
             _context = context;
             _mapper = mapper;
             _mqqtClient = mqqtClient;
+            _authorizationService = authorizationService;
+            _userContextService = userContextService;
         }
 
         public async Task<bool> Add(CreateDeviceViewModel createDeviceViewModel)
@@ -61,6 +68,13 @@ namespace Aqua_Sharp_Backend.Services
                 throw new NotFound404Exception(
                     $"404. Aquarium with id: {id} not found!");
 
+            var aquarium = device.Aquarium;
+            var authorizationResult = _authorizationService.AuthorizeAsync(_userContextService.User, new List<Aquarium>() { aquarium }, new ResourceOperationRequirement(ResourceOperation.Read)).Result;
+            if (!authorizationResult.Succeeded)
+            {
+                throw new Forbidden403Exception("403 Forbidden");
+            }
+
             return device;
         }
 
@@ -80,8 +94,15 @@ namespace Aqua_Sharp_Backend.Services
         {
             var deviceToUpdate = await _context.Devices.Include(d => d.Aquarium).FirstOrDefaultAsync(d => d.DeviceId == id);
 
+
             if (deviceToUpdate != null)
             {
+                var aquarium = deviceToUpdate.Aquarium;
+                var authorizationResult = _authorizationService.AuthorizeAsync(_userContextService.User, new List<Aquarium>() { aquarium }, new ResourceOperationRequirement(ResourceOperation.Create)).Result;
+                if (!authorizationResult.Succeeded)
+                {
+                    throw new Forbidden403Exception("403 Forbidden");
+                }
                 var invalidProperties = deviceModel.Operations
                     .Select(o => o.path)
                     .Where(p => !IsValidProperty(p, typeof(EditAquariumViewModel)))
