@@ -43,6 +43,8 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<AquariumSeeder>();
 builder.Services.AddScoped<IPasswordHasher<Auth>, PasswordHasher<Auth>>();
 builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
+builder.Services.AddScoped<IUserContextService, UserContextService>();
+builder.Services.AddHttpContextAccessor();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
