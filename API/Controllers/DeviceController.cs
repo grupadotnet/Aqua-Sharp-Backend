@@ -15,16 +15,19 @@ namespace Aqua_Sharp_Backend.Controllers
     public class DeviceController : ControllerBase
     {
         private readonly IDeviceService _deviceService;
+        
 
         public DeviceController(IDeviceService deviceService)
         {
             _deviceService = deviceService; 
+            
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             var device = await _deviceService.Get(id);
+            
 
             return Ok(device);
         }

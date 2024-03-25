@@ -5,6 +5,7 @@ using Aqua_Sharp_Backend.Contexts;
 using Aqua_Sharp_Backend.Exceptions;
 using Aqua_Sharp_Backend.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Models.Entities;
 using Models.ViewModels.Aquarium;
 using Models.ViewModels.Device;
 
@@ -16,18 +17,32 @@ namespace Aqua_Sharp_Backend.Services
         private readonly IMapper _mapper;
         private readonly IDeviceService _deviceService;
         private readonly IAuthorizationService _authorizationService;
+        private readonly IUserContextService _userContextService;
 
-        public AquariumService(Context context, IMapper mapper, IDeviceService deviceService,IAuthorizationService authorizationService)
+        public AquariumService(Context context, IMapper mapper, IDeviceService deviceService,IAuthorizationService authorizationService,IUserContextService userContextService)
         {
             _context = context;
             _mapper = mapper;
             _deviceService = deviceService;
             _authorizationService = authorizationService;
+            _userContextService = userContextService;
         }
         
         public async Task<Aquarium> Add(CreateAquariumViewModel createAquariumViewModel)
         {
+            
             var aquarium = _mapper.Map<Aquarium>(createAquariumViewModel);
+            int? getUserId = _userContextService.GetUserId;
+            aquarium.UserId =(getUserId is null) ? throw new Forbidden403Exception("403 Forbidden") :(int)getUserId;
+            var authorizationResult = _authorizationService.AuthorizeAsync(_userContextService.User,new List<Aquarium>() {aquarium},new ResourceOperationRequirement(ResourceOperation.Create)).Result;
+
+            if (!authorizationResult.Succeeded)
+            {
+
+                throw new Forbidden403Exception("403 Forbidden");
+
+            }
+
             var addedAquarium = await _context.Aquarium.AddAsync(aquarium);
 
             var createDeviceViewModel = new CreateDeviceViewModel()
@@ -44,7 +59,7 @@ namespace Aqua_Sharp_Backend.Services
             return addedAquariumWithDevice;
         }
 
-        public async Task Delete(int id,ClaimsPrincipal user)
+        public async Task Delete(int id)
         {
 
             
@@ -53,7 +68,7 @@ namespace Aqua_Sharp_Backend.Services
                 .AsNoTracking()
                 .FirstOrDefaultAsync(a => a.AquariumId == id);
 
-            var authorizationResult = _authorizationService.AuthorizeAsync(user, aquarium, new ResourceOperationRequirement(ResourceOperation.Delete)).Result;
+            var authorizationResult = _authorizationService.AuthorizeAsync(_userContextService.User, new List<Aquarium>() { aquarium}, new ResourceOperationRequirement(ResourceOperation.Delete)).Result;
 
             if (!authorizationResult.Succeeded) {
 
@@ -72,13 +87,32 @@ namespace Aqua_Sharp_Backend.Services
         
         public async Task<List<Aquarium>> GetAll()
         {
-            var aquariumList = await _context
+            List<Aquarium> aquariumList = null;
+            if(_userContextService.GetUserRole == ((int)RoleName.Own).ToString())
+            {
+                aquariumList = await _context
+                .Aquarium
+                .AsNoTracking()
+                .Where(a=>a.UserId==_userContextService.GetUserId)
+                .ToListAsync();
+            }
+            else if(_userContextService.GetUserRole == ((int)RoleName.All).ToString())
+            {
+                aquariumList = await _context
                 .Aquarium
                 .AsNoTracking()
                 .ToListAsync();
+            }
 
             if (aquariumList == null)
                 return new List<Aquarium>();
+
+            var authorizationResult = _authorizationService.AuthorizeAsync(_userContextService.User, aquariumList, new ResourceOperationRequirement(ResourceOperation.Read)).Result;
+
+            if (!authorizationResult.Succeeded)
+            {
+                throw new Forbidden403Exception("403 Forbidden");
+            }
 
             return aquariumList;
         }
@@ -93,6 +127,12 @@ namespace Aqua_Sharp_Backend.Services
 
             if (aquarium == null) throw new NotFound404Exception(
                 $"404. Aquarium with id: {id} not found!");
+            var authorizationResult = _authorizationService.AuthorizeAsync(_userContextService.User, new List<Aquarium> {aquarium}, new ResourceOperationRequirement(ResourceOperation.Read)).Result;
+
+            if (!authorizationResult.Succeeded)
+            {
+                throw new Forbidden403Exception("403 Forbidden");
+            }
             
             return aquarium;
         }
