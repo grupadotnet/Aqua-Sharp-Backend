@@ -9,5 +9,6 @@ namespace Aqua_Sharp_Backend.Interfaces
         Task<List<Measurement>> Get(GetMeasurementsPaginationViewModel paginationViewModel);
         Task<List<Measurement>> Get(GetMeasurementsStartFromViewModel viewModel);
         Task Delete(int id);
+        Task SendMes(int userID);
     }
 }

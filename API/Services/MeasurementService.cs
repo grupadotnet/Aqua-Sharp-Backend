@@ -2,6 +2,11 @@ using System.Diagnostics.Metrics;
 using Aqua_Sharp_Backend.Contexts;
 using Aqua_Sharp_Backend.Exceptions;
 using Aqua_Sharp_Backend.Interfaces;
+using Aqua_Sharp_Backend.SignalR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+using Models.Entities;
 using Models.ViewModels.Measurement;
 
 namespace Aqua_Sharp_Backend.Services
@@ -12,22 +17,24 @@ namespace Aqua_Sharp_Backend.Services
         private readonly IMapper _mapper;
         private readonly IAquariumService _aquariumService;
         private const Int32 PageSize = 20;
+        private readonly IHubContext<AquaSharpHub> _hubContext;
 
-        public MeasurementService(Context context, IMapper mapper, IAquariumService aquariumService)
+        public MeasurementService(Context context, IMapper mapper, IAquariumService aquariumService, IHubContext<AquaSharpHub> hubContext)
         {
             _context = context;
             _mapper = mapper;
             _aquariumService = aquariumService;
+            _hubContext = hubContext;
         }
 
         public async Task<Measurement> Create(CreateMeasurementViewModel viewModel)
         {
             await _aquariumService.Get(viewModel.AquariumId);
-
             var measurement = _mapper.Map<Measurement>(viewModel);
+            var userId = _context.Aquarium.FirstOrDefault(a => a.AquariumId == measurement.AquariumId).UserId;
             var res = await _context.Measurements.AddAsync(measurement);
             await _context.SaveChangesAsync();
-
+            await _hubContext.Clients.User(userId.ToString()).SendAsync("SendMeasure", measurement);
             return res.Entity;
         }
 
@@ -81,6 +88,14 @@ namespace Aqua_Sharp_Backend.Services
                 .ToListAsync();
 
             return res;
+        }
+
+        
+        public async Task SendMes(int userID)
+        {
+            var  measurement = _context.Measurements.FirstOrDefault();
+            var send = new SendMes() { MeasurementId = measurement.MeasurementId,LightOn = measurement.LightOn,Ph=measurement.Ph,TDS = measurement.TDS,Temperature = measurement.Temperature,Time = measurement.Time};
+            await _hubContext.Clients.User(userID.ToString()).SendAsync("SendMeasure", send);
         }
     }
 }

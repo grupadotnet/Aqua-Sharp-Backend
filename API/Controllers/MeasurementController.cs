@@ -1,7 +1,9 @@
 ﻿using Aqua_Sharp_Backend.Interfaces;
+using Aqua_Sharp_Backend.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Models.ViewModels.Measurement;
 
 namespace Aqua_Sharp_Backend.Controllers
@@ -41,6 +43,14 @@ namespace Aqua_Sharp_Backend.Controllers
             await _measurementService.Delete(id);
 
             return NoContent();
+        }
+
+        [HttpPost]
+        [Route("send")]
+        public async Task<IActionResult> Index([FromQuery] int userId)
+        {
+            _measurementService.SendMes(userId);
+            return Ok();
         }
     }
 }
