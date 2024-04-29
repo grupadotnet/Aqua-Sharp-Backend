@@ -91,11 +91,6 @@ namespace Aqua_Sharp_Backend.Services
         }
 
         
-        public async Task SendMes(int userID)
-        {
-            var  measurement = _context.Measurements.FirstOrDefault();
-            var send = new SendMes() { MeasurementId = measurement.MeasurementId,LightOn = measurement.LightOn,Ph=measurement.Ph,TDS = measurement.TDS,Temperature = measurement.Temperature,Time = measurement.Time};
-            await _hubContext.Clients.User(userID.ToString()).SendAsync("SendMeasure", send);
-        }
+        
     }
 }
