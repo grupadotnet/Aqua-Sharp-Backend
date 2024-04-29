@@ -12,6 +12,7 @@ using NLog.Web;
 using Microsoft.AspNetCore.Authorization;
 using Aqua_Sharp_Backend.Authorization;
 using Microsoft.OpenApi.Models;
+using Aqua_Sharp_Backend.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +46,7 @@ builder.Services.AddScoped<IPasswordHasher<Auth>, PasswordHasher<Auth>>();
 builder.Services.AddScoped<IAuthorizationHandler, AquariumResourceOperationRequirementHandler>();
 builder.Services.AddScoped<IUserContextService, UserContextService>();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddSignalR();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -118,14 +120,19 @@ app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseMiddleware<WebSocketsMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseCors(x => x
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .SetIsOriginAllowed(origin => true) // allow any origin
-                .AllowCredentials()); // allow credentials
+app.UseCors(
+x => x
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .SetIsOriginAllowed(origin => true) // allow any origin
+            .AllowCredentials()
+               ); // allow credentials
+
+app.MapHub<AquaSharpHub>("/aquahub");
 
 app.Run();

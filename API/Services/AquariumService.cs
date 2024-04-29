@@ -137,6 +137,20 @@ namespace Aqua_Sharp_Backend.Services
             return aquarium;
         }
         
+        public async Task<Aquarium> GetForMeasurement(int id)
+        {
+            var aquarium = await _context
+                .Aquarium
+                .AsNoTracking()
+                .Include(a => a.Device)
+                .FirstOrDefaultAsync(a => a.AquariumId == id);
+
+            if (aquarium == null) throw new NotFound404Exception(
+                $"404. Aquarium with id: {id} not found!");
+
+            return aquarium;
+        }
+        
         public async Task<bool> CheckIfAquariumExistsAsync(int id)
         {
             return await _context.Aquarium
