@@ -45,12 +45,6 @@ namespace Aqua_Sharp_Backend.Controllers
             return NoContent();
         }
 
-        [HttpPost]
-        [Route("send")]
-        public async Task<IActionResult> Index([FromQuery] int userId)
-        {
-            _measurementService.SendMes(userId);
-            return Ok();
-        }
+        
     }
 }
